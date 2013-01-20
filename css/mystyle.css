@@ -1,0 +1,61 @@
+/***********************************************
+mystyle.css is override css style page html file
+************************************************/
+
+body{
+	background-color:	#FAFAFA;
+}
+
+header{
+	background-color:	#333333;
+	border:				1px solid;
+}
+
+h1{
+	margin-top:    55px;
+	font-style:    normal;
+	font-weight:   100;
+	font-variant:  small-caps;
+	font-family:   Helvetica ,sans-serif;
+	text-align:    center;
+	letter-spacing:-3px;
+	/*color:         #727273;*/
+	color:           #2795CC;
+}
+
+.hero-unit{
+	margin:			 0px auto;
+	width:			 1060px;
+	min-width:		 940px;
+	min-height:		 600px;
+	border: 		 10px double #EEEEEE;
+	border-radius: 	 0px;
+	background-color:#FAFAFA;
+	padding:         50px;
+
+}
+
+.thumbnail{
+	padding:         40px;
+	text-align:      center;
+	border-radius:   0px;
+	background-color:#F5F5F7;
+
+}
+
+
+
+
+
+hr{
+	width:  800px;
+	size:   20px;
+	border: 1px solid #E5E5E5;
+	margin: 20px auto 0px;
+}
+
+footer{
+	text-align: center;
+	color:		#6D6D6E;
+}
+
