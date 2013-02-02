@@ -12,6 +12,6 @@ require_once("connecter.php");
 
 $DB = new Connecter();
 
-if($DB == 0) {echo("DAMN SHIT ");} else {echo("good shit");}
+if($DB->dblink == 0) {echo("DAMN SHIT ");} else {echo("good shit");}
 
 
