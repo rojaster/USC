@@ -127,7 +127,7 @@
 			<input type="text" class="input-block-level" placeholder="Логин" name="u_name">
 			<input type="password" class="input-block-level" placeholder="Пароль" name="u_pass">
 			<label class="checkbox">
-				<input type="checkbox" value="remember-me" name="sess_switch" checked="true"> Запомнить меня </label>
+				<input type="checkbox" value="1" name="sess_switch" checked="true"> Запомнить меня </label>
 			<button class="btn btn-large btn-primary" type="submit" >Войти</button>
 		</form>
 	</div>
