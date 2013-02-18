@@ -1,9 +1,11 @@
-<?php
+<?php 
 /********************************************
 *Main Control Panel Page*
+*query builder : get category , get data
+from db about category, create page with category*
 ********************************************/
-require_once("/php/connecter.php");
-@session_start(); // start session 
+require_once("connecter.php");
+@session_start();
 
 if(empty($_SESSION['sess_token'])) header("Location: /php/auth.php"); // if session token is empty, redirect user to auth
 
@@ -28,6 +30,19 @@ if(md5($result['id'].'_'.$result['reg_date']) != $_SESSION['sess_token']){
 		header("Location: /php/auth.php");
 }
 else{
+	$category = $db->secure($_GET['cat']);
+	switch($category){
+		case 'sims' : $cat_header = 'SIM'; break;
+		case 'devices' : $cat_header = 'ПРИБОРЫ'; break;
+		case 'sensors' : $cat_header = 'ДАТЧИКИ'; break;
+		case 'autos' : $cat_header = 'АВТО'; break;
+		case 'servicesm' : $cat_header = 'МОНТАЖ'; break;
+		case 'servicess' : $cat_header = 'Заявки на тех. обслуживание'; break;
+		case 'workers' : $cat_header = 'РАБОТНИКИ'; break;
+		case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
+		case 'clients' : $cat_header = 'КЛИЕНТЫ'; break;
+		default: header("Location: auth.php");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,11 +51,11 @@ else{
 	<title>ООО "ЮграСпецКонтроль"</title>
 
 	<!--Bootstrap include -->
-	<link href="css/bootstrap.css" rel="stylesheet" />
-	<link href="css/bootstrap-responsive.css" rel="stylesheet"/>
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<link href="css/mystyle.css" rel="stylesheet" />
+	<link href="../css/bootstrap.css" rel="stylesheet" />
+	<link href="../css/bootstrap-responsive.css" rel="stylesheet"/>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<link href="../css/mystyle.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -95,10 +110,10 @@ else{
 								</li>
 							</ul>
 						
-						</li>  
+						</li>
 
 						<li>
-							<a href="/php/auth.php">Выход</a>
+							<a href="auth.php">Выход</a>
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
@@ -107,71 +122,44 @@ else{
 	</header>
 <!-- HEADER -->
 
-	<h1>Главная Панель Управления</h1>
+	<h1><?=$cat_header?></h1>
+	<ul class="pager">
+		<li>
+			<a href="../index.php">&larr; Главная Панель Управления</a>
+		</li>
+		<?php
+			if(empty($_GET['edit']) or intval($_GET['edit'])== 0){
+			if($rights!='S'){
+			?>
+					<li>
+						<a href="builder.php?cat=<?=$category?>&edit=1">Edit</a>
+					</li>
+				<?php
+			}
+			}
+			if(!empty($_GET['edit']) && intval($_GET['edit']) == 1){ 
+			?>
+					<li>
+						<a href="builder.php?cat=<?=$category?>&edit=0">View</a>
+					</li>
+			<?php
+			}
+			?>
+	</ul>
 
 <!-- BODY Container -->
-	<div class="hero-unit">
-
-
-		<ul class="thumbnails">
-			<li>
-			<a href="/php/builder.php?cat=sims" class="thumbnail">
-				SIM
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=devices" class="thumbnail">
-				ПРИБОРЫ
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=sensors" class="thumbnail">
-				ДАТЧИКИ
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=autos" class="thumbnail">
-				АВТО
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=servicesm" class="thumbnail">
-				МОНТАЖ
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=servicess" class="thumbnail">
-				Заявки на <br/>тех. обслуживание
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=workers" class="thumbnail">
-				РАБОТНИКИ
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=statistics" class="thumbnail">
-				СТАТИСТИКА
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/builder.php?cat=clients" class="thumbnail">
-				КЛИЕНТЫ
-			</a>
-			</li>
-
-		</ul>
+	<div class="table-view"><?php
 	
+	$edit = (empty($_GET['edit']))? 0 : 1;
 
-	</div>
+	if($edit == 1 ){
+		include_once("edit.php");
+	}
+	else{
+		include_once("view.php");
+	}
+
+	?></div>
 
 <!--FOOTER-->
 	<hr/>
@@ -182,6 +170,8 @@ else{
 <!--FOOTER-->
 </body>
 </html>
+
+
 <?php
-} // end else (when session token is valid , show up main panel )
-?>
+} // end else 
+

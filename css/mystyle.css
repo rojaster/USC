@@ -26,7 +26,7 @@ h1{
 .hero-unit{
 	margin:			 0px auto;
 	width:			 1060px;
-	min-width:		 940px;
+	min-width: 		 940px;
 	min-height:		 600px;
 	border: 		 10px double #EEEEEE;
 	border-radius: 	 0px;
@@ -35,12 +35,52 @@ h1{
 
 }
 
+.table-view{
+	margin:			 0px auto;
+	width:			 90%;
+	min-width: 		 940px;
+	min-height:		 600px;
+	border: 		 10px double #EEEEEE;
+	border-radius: 	 0px;
+	background-color:#FAFAFA;
+	padding:         50px;
+}
+
+
+.navbar-inverse .brand{
+	color:#FFFFFF;
+	cursor: default;
+}
+
+
+.dropdown-menu > li{
+	padding:15px;
+	padding-bottom: 0px;
+	margin: 0px;
+}
+
+.dropdown-menu > li > address > a{
+	color: #999999;
+}
+
+.dropdown-menu > li > address > a:hover{
+	color: #0088cc;
+}
+
+.short-line{
+	width:90px;
+	margin:5px;
+	padding:0px;
+	
+	text-align:left;
+}
+
 .thumbnail{
 	padding:         40px;
 	text-align:      center;
 	border-radius:   0px;
 	background-color:#F5F5F7;
-
+	width:           200px;
 }
 
 

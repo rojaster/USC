@@ -58,28 +58,9 @@
 			padding: 7px 9px;
 		}
 
-		.navbar-inverse .brand{
-			color:#FFFFFF;
-			cursor: default;
-		}
+		
 
-		.dropdown-menu > li{
-			padding:15px;
-			padding-bottom: 0px;
-			margin: 0px;
-		}
 
-		.dropdown-menu > li > address > a{
-			color: #999999;
-		}
-
-		.dropdown-menu > li > address > a:hover{
-			color: #0088cc;
-		}
-
-		.dropdown > a:hover{
-			
-		}
 	</style>
 
 
@@ -95,7 +76,7 @@
 					<ul class="nav">
 						<!-- Вставить ссылку на сайт компании, пока выводить "Скоро ожидается" -->
 						
-						 <li class="dropdown" >
+						<li class="dropdown" >
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#menu">Контактная информация
 							</a>
 							<ul class="dropdown-menu pull-right" role="menu" >

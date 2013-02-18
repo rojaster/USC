@@ -9,14 +9,14 @@
 ********************************************/
 require_once("connecter.php");
 @session_start();
-@session_register();
+
 
 $login = trim($_POST['u_name']);
 $pass = trim($_POST['u_pass']);
 
 if(empty($login) || empty($pass)) header("Location: auth.php"); //little kinda trick
 
-$login = $db->secure($login);
+$login = $db->secure($login); // function defined in class 
 $pass = sha1($pass);
 $sess = @intval($_POST['sess_switch']);
 
@@ -27,10 +27,26 @@ $qresult = mysql_query($sql,$dblnk) or die(header("Location: bad_news.php"));
 if(!$qresult) header("Location:auth.php"); 
 if(mysql_num_rows($qresult) != 1) {header("Location: auth.php");} // if query returns more one records  redirect to auth
 $result = mysql_fetch_assoc($qresult);
-$sess_token = md5($result['id'].'_'.$result['reg_date']);
 
-$_SESSION['sess_token'] = $sess_token; // sess token for user, i would check it for every script where user doing work
-                                       // take a session token and compare it with all variants
-                                       // yeah, we have one minus - we don't change session token after any time 
+if( $sess  == 1 ){ 
+		$sess_token = md5($result['id'].'_'.$result['reg_date']);
+		$_SESSION['sess_token'] = $sess_token; // sess token for user, i would check it for every script where user doing work
+		                                       // take a session token and compare it with all variants
+		                                       // yeah, we have one minus - we don't change session token after any time 
+}
+else{
+		@session_destroy();
+		header("Location: auth.php");
+}
+
 $_SESSION['name'] = $result['log']; // log
 $_SESSION['rights'] = $result['access_rights']; // rigths , used to check it on main script and must to know what we do with user
+
+header("Location: ../index.php"); // if all was cool , redirect user to main control panel
+unset($result);
+@mysql_free_result($qresult); // free query result, just a good practice
+
+
+
+
+
