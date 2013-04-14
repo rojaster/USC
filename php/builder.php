@@ -25,8 +25,9 @@ $result = mysql_fetch_assoc($qresult);
 @mysql_free_result($qresult); // free query result
 
 if(md5($result['id'].'_'.$result['reg_date']) != $_SESSION['sess_token']){
-		@session_destroy();
 		session_unset($_SESSION['sess_token']);
+		unset($_SESSION['session_token']);
+		@session_destroy();
 		header("Location: /php/auth.php");
 }
 else{
@@ -41,7 +42,7 @@ else{
 		case 'workers' : $cat_header = 'РАБОТНИКИ'; break;
 		case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
 		case 'clients' : $cat_header = 'КЛИЕНТЫ'; break;
-		default: header("Location: auth.php");
+		default: header("Location: exit.php");
 	}
 ?>
 <!DOCTYPE html>
@@ -113,7 +114,7 @@ else{
 						</li>
 
 						<li>
-							<a href="auth.php">Выход</a>
+							<a href="/php/exit.php">Выход</a>
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
@@ -127,39 +128,11 @@ else{
 		<li>
 			<a href="../index.php">&larr; Главная Панель Управления</a>
 		</li>
-		<?php
-			if(empty($_GET['edit']) or intval($_GET['edit'])== 0){
-			if($rights!='S'){
-			?>
-					<li>
-						<a href="builder.php?cat=<?=$category?>&edit=1">Edit</a>
-					</li>
-				<?php
-			}
-			}
-			if(!empty($_GET['edit']) && intval($_GET['edit']) == 1){ 
-			?>
-					<li>
-						<a href="builder.php?cat=<?=$category?>&edit=0">View</a>
-					</li>
-			<?php
-			}
-			?>
 	</ul>
 
-<!-- BODY Container -->
-	<div class="table-view"><?php
-	
-	$edit = (empty($_GET['edit']))? 0 : 1;
-
-	if($edit == 1 ){
-		include_once("edit.php");
-	}
-	else{
-		include_once("view.php");
-	}
-
-	?></div>
+	<table class="table table-bordered table-hover table-condensed">
+			<?php require_once("view.php"); ?>
+	</table>
 
 <!--FOOTER-->
 	<hr/>

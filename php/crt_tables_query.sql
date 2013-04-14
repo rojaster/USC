@@ -104,7 +104,7 @@ CREATE TABLE `tblSims` (
  `phone_number` int(30) unsigned DEFAULT '0',
  `status` ENUM("free","busy","blocked") CHARACTER SET utf8 NOT NULL,
  `dateofcreate` date DEFAULT '0000-00-00',
- `userinfo` text CHARACTER SET utf8,
+ `lic_schet` text CHARACTER SET utf8,
  PRIMARY KEY (`sim_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 

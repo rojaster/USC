@@ -41,6 +41,12 @@ else{
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<link href="css/mystyle.css" rel="stylesheet" />
+	<script type="text/javascript">
+		var clrCoockie = function(){
+			window.document.cookie = 'PHPSESSID=0;';
+			return 1;
+		}
+	</script>
 
 </head>
 <body>
@@ -98,7 +104,7 @@ else{
 						</li>  
 
 						<li>
-							<a href="/php/auth.php">Выход</a>
+							<a href="/php/exit.php">Выход</a>
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->

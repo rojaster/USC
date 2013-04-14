@@ -14,7 +14,9 @@ class Connecter{
 		function __construct(){
 				$this->set_param();
 				$this->dblink = @mysql_connect($this->host,$this->dbuser,$this->dbpassw) 
-											or die("Can't connect to database, check parameters"); // fail 
+											or die("Can't connect to database, check parameters"); // fail
+				@mysql_set_charset('utf8'); 
+				$this->select_db();
 		}
 		
 		function __destruct(){
@@ -30,6 +32,10 @@ class Connecter{
 
 		public function get_link(){
 			 return $this->dblink; // for work out of class, at future i would close all methods in class
+		}
+
+		public function get_dbname(){
+			return $this->dbname; // get dbname 
 		}
 
 		public function set_param($user = 'root', $passw = '', $host = 'localhost', $dbname= 'usctestdb'){ 
@@ -48,6 +54,5 @@ class Connecter{
 
 // for ucodese at 
 $db = new Connecter(); // create Connecter object and connect to database
-$db->select_db(); // select database which set in object property
 $dblnk = $db->get_link(); // better than write full code
 ?>

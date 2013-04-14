@@ -1,3 +1,8 @@
+<?php
+@session_start();
+setcookie("PHPSESSID","",time()-3600,"/",$_SERVER['SERVER_NAME']);
+@session_destroy();
+?>
 <!DOCTYPE html>
 <html>
 <head>

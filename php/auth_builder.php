@@ -27,15 +27,16 @@ $qresult = mysql_query($sql,$dblnk) or die(header("Location: bad_news.php"));
 if(!$qresult) header("Location:auth.php"); 
 if(mysql_num_rows($qresult) != 1) {header("Location: auth.php");} // if query returns more one records  redirect to auth
 $result = mysql_fetch_assoc($qresult);
-
 if( $sess  == 1 ){ 
-		$sess_token = md5($result['id'].'_'.$result['reg_date']);
-		$_SESSION['sess_token'] = $sess_token; // sess token for user, i would check it for every script where user doing work
-		                                       // take a session token and compare it with all variants
-		                                       // yeah, we have one minus - we don't change session token after any time 
+		
+		$_SESSION['sess_token'] = md5($result['id'].'_'.$result['reg_date']);
+		 // sess token for user, i would check it for every script where user doing work
+		 // take a session token and compare it with all variants
+		 // yeah, we have one minus - we don't change session token after any time 
 }
 else{
 		@session_destroy();
+		@session_unset();
 		header("Location: auth.php");
 }
 
