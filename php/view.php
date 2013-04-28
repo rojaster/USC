@@ -15,15 +15,18 @@ switch($category){
 		case 'devices'    : $catInfo = new CViewDevices($db->get_link(),$rights);
 							$catInfo->viewCatData($db->get_dbname());
 						    break;
-		case 'sensors'    : 
+		case 'sensors'    : $catInfo = new CViewSensors($db->get_link(),$rights);
+							$catInfo->viewCatData($db->get_dbname());
 							break;
-		case 'autos'      : 
+		case 'autos'      : $catInfo = new CViewAutos($db->get_link(),$rights);
+							$catInfo->viewCatData($db->get_dbname());
 							break;
 		case 'servicesm'  : 
 							break;
 		case 'servicess'  : 
 							break;
-		case 'workers'    : 
+		case 'workers'    : $catInfo = new CViewWorkers($db->get_link(),$rights);
+							$catInfo->viewCatData($db->get_dbname());
 							break;
 		case 'statistics' : 
 							break;

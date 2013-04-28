@@ -127,6 +127,7 @@ else{
 	<ul class="pager">
 		<li>
 			<a href="../index.php">&larr; Главная Панель Управления</a>
+			<?phpif($rights!='S'){?><a href="creator.php">Создать</a><?=}?>
 		</li>
 	</ul>
 
