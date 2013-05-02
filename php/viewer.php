@@ -108,6 +108,10 @@ class CViewClients extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function insDataToTable(){
+			var_dump($_POST);
+		}
+
 	function render(){
 		$htmlFormContent = "\t\t\n<label for=\"firm_name\">Название фирмы: </label>
 							<input type=\"text\" name=\"firm_name\">
@@ -134,7 +138,6 @@ class CViewClients extends CViewer implements IViewer{
 							<input type=\"text\" name=\"status\">
 							";
 		print($htmlFormContent);
-
 	}
 }
 
@@ -195,24 +198,29 @@ class CViewSimcards extends CViewer implements IViewer{
 	}
 
 	function insDataToTable(){
-
+		var_dump($_POST);
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+		$htmlFormContent= "";
+		$htmlFormContent .= "\t\t\n<label for=\"NSim\">Сим номер: </label>
 							<input type=\"text\" name=\"NSim\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
 							<input type=\"text\" name=\"PNumber\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option >free</option>
+								<option >busy</option>
+								<option >blocked</option>
+							</select>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
-							";
+		//$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+		//					<input type=\"text\" name=\"crdate\">
+		//					";
 		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+							<input type=\"text\" name=\"lic\">
 							";
 		print($htmlFormContent);
 	}
@@ -275,6 +283,10 @@ class CViewDevices extends CViewer implements IViewer{
 			$tableBody .= "</tbody>\n";
 		}
 		return $tableBody;
+	}
+
+	function insDataToTable(){
+		var_dump($_POST);
 	}
 
 	function render(){
@@ -354,6 +366,29 @@ class CViewSensors extends CViewer implements IViewer{
 		}
 		return $tableBody;
 	}
+
+	function insDataToTable(){
+		var_dump($_POST);
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
+	}
 }
 
 //for Autos table
@@ -412,6 +447,29 @@ class CViewAutos extends CViewer implements IViewer{
 			$tableBody .= "</tbody>\n";
 		}
 		return $tableBody;
+	}
+
+	function insDataToTable(){
+		var_dump($_POST);
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
 	}
 }
 
@@ -479,6 +537,29 @@ class CViewWorkers extends CViewer implements IViewer{
 		}
 		@mysql_free_result($records);
 		return $tableBody;
+	}
+
+	function insDataToTable(){
+		var_dump($_POST);
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
 	}
 }
 
@@ -549,6 +630,29 @@ class CViewServicesM extends Cviewer implements IViewer{
 		@mysql_free_result($records);
 		return $tableBody;
 	}
+
+	function insDataToTable(){
+		var_dump($_POST);
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
+	}
 }
 
 
@@ -617,5 +721,28 @@ class CViewServicesTS extends Cviewer implements IViewer{
 		}
 		@mysql_free_result($records);
 		return $tableBody;
+	}
+
+	function insDataToTable(){
+		var_dump($_POST);
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
 	}
 }

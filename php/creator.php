@@ -5,17 +5,34 @@
 ************************************************/
 require_once("viewer.php");
 @session_start();
+if(empty($_SESSION['sess_token'])) header("Location: exit.php");
 $category = $db->secure($_GET['ctg']);
 	switch($category){
-		case 'sims' : $cat_header = 'SIM'; break;
-		case 'devices' : $cat_header = 'ПРИБОРЫ'; break;
-		case 'sensors' : $cat_header = 'ДАТЧИКИ'; break;
-		case 'autos' : $cat_header = 'АВТО'; break;
-		case 'servicesm' : $cat_header = 'МОНТАЖ'; break;
-		case 'servicess' : $cat_header = 'Заявки на тех. обслуживание'; break;
-		case 'workers' : $cat_header = 'РАБОТНИКИ'; break;
-		case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
-		case 'clients' : $cat_header = 'КЛИЕНТЫ'; break;
+		case 'sims'       : $cat_header = 'SIM'; 
+							$catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'devices'    : $cat_header = 'ПРИБОРЫ';
+							$catInsData = new CViewDevices($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'sensors'    : $cat_header = 'ДАТЧИКИ';
+							$catInsData = new CViewSensors($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'autos'      : $cat_header = 'АВТО'; 
+							$catInsData = new CViewAutos($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'servicesm'  : $cat_header = 'МОНТАЖ'; 
+							$catInsData = new CViewServicesM($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'servicess'  : $cat_header = 'Заявки на тех. обслуживание'; 
+							$catInsData = new CViewServicesTS($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'workers'    : $cat_header = 'РАБОТНИКИ';
+							$catInsData = new CViewWorkers($db->get_link(),$_SESSION['rights']);
+							break;
+		case 'clients'    : $cat_header = 'КЛИЕНТЫ';
+							$catInsData = new CViewClients($db->get_link(),$_SESSION['rights']);
+							break;
+		//case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
 		default: header("Location: exit.php");
 	}
 
@@ -32,8 +49,24 @@ $category = $db->secure($_GET['ctg']);
 	<script src="../js/jquery.js"></script>
 	<script src="../js/bootstrap.js"></script>
 	<link href="../css/mystyle.css" rel="stylesheet" />
-	<sctipt type="text/javascript">
-
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#frm').submit(function(e){
+			e.preventDefault();
+			var mthd = $(this).attr('method');
+			var act = $(this).attr('action');
+			var fdata = $(this).serialize();
+			$.ajax({
+				type   : mthd,
+				url    : act,
+				data   : fdata
+				success: function(result){
+					alert('Data was inserted');
+					$('footer').after(result);
+				}
+			});
+		});
+	});
 	</script>
 
 </head>
@@ -88,26 +121,12 @@ $category = $db->secure($_GET['ctg']);
 	</ul>
 
 	<div class="hero-unit">
-	<form>
+	<form id="frm">
 		<?php
-			switch($db->secure($_GET['ctg'])){
-				default: header("Location: ../index.php");
-				case 'sims'       : $catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']); 
-									$catInsData->render();
-									break;
-				case 'devices'    : $catInsData = 0; break;
-				case 'sensors'    : $catInsData = 0; break;
-				case 'autos'      : $catInsData = 0; break;
-				case 'servicesm'  : $catInsData = 0; break;
-				case 'servicess'  : $catInsData = 0; break;
-				case 'workers'    : $catInsData = 0; break;
-				case 'statistics' : $catInsData = 0; break;
-				case 'clients'    : $catInsData = new CViewClients($db->get_link(),$_SESSION['rights']); 
-									$catInsData->render();
-									break;
-			}
+			$catInsData->render();
 		?>
-
+	<br/>
+	<button type="submit" name="push" formaction="inserter.php?ctg=<?=$category?>" formmethod="POST">Внести</button>
 	</form>
 	</div>
 
