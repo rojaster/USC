@@ -21,9 +21,11 @@ switch($category){
 		case 'autos'      : $catInfo = new CViewAutos($db->get_link(),$rights);
 							$catInfo->viewCatData($db->get_dbname());
 							break;
-		case 'servicesm'  : 
+		case 'servicesm'  : $catInfo = new CViewServicesM($db->get_link(),$rights);
+							$catInfo->viewCatData($db->get_dbname());
 							break;
-		case 'servicess'  : 
+		case 'servicess'  : $catInfo = new CViewServicesTS($db->get_link(),$rights);
+							$catInfo->viewCatData($db->get_dbname());
 							break;
 		case 'workers'    : $catInfo = new CViewWorkers($db->get_link(),$rights);
 							$catInfo->viewCatData($db->get_dbname());

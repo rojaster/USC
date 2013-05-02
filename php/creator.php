@@ -1,36 +1,11 @@
-<?php 
-/********************************************
-*Main Control Panel Page*
-*query builder : get category , get data
-from db about category, create page with category*
-********************************************/
-require_once("connecter.php");
+<?php
+/***********************************************
+* For Create a new record in the category
+* use viewer.php class 
+************************************************/
+require_once("viewer.php");
 @session_start();
-
-if(empty($_SESSION['sess_token'])) header("Location: /php/auth.php"); // if session token is empty, redirect user to auth
-
-$login = $db->secure($_SESSION['name']);
-$rights = $db->secure($_SESSION['rights']);
-$category = $db->secure($_GET['cat']);
-$sql = "SELECT * 
-		FROM auth
-		INNER JOIN tblworkers ON tblworkers.worker_id = tblworkers\$worker_id
-		WHERE log = '{$login}' AND access_rights = '{$rights}'
-		LIMIT 1"; //build query
-
-$qresult = @mysql_query($sql,$dblnk) or die(print_r($sql)); // check user again, lil trick
-if(!$qresult) header("Location: /php/auth.php"); 
-if(mysql_num_rows($qresult) != 1) {header("Location: /php/auth.php");} // if query returns more one records  redirect to auth
-$result = mysql_fetch_assoc($qresult);
-@mysql_free_result($qresult); // free query result
-
-if(md5($result['id'].'_'.$result['reg_date']) != $_SESSION['sess_token']){
-		session_unset($_SESSION['sess_token']);
-		unset($_SESSION['session_token']);
-		@session_destroy();
-		header("Location: /php/auth.php");
-}
-else{
+$category = $db->secure($_GET['ctg']);
 	switch($category){
 		case 'sims' : $cat_header = 'SIM'; break;
 		case 'devices' : $cat_header = 'ПРИБОРЫ'; break;
@@ -43,6 +18,7 @@ else{
 		case 'clients' : $cat_header = 'КЛИЕНТЫ'; break;
 		default: header("Location: exit.php");
 	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,6 +32,9 @@ else{
 	<script src="../js/jquery.js"></script>
 	<script src="../js/bootstrap.js"></script>
 	<link href="../css/mystyle.css" rel="stylesheet" />
+	<sctipt type="text/javascript">
+
+	</script>
 
 </head>
 <body>
@@ -89,28 +68,6 @@ else{
 						</li>
 
 
-						<!-- Poppup меню с кратким профилем компании -->
-						<li class="dropdown" >
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#menu">
-								Профиль сотрудника <?=$login?>
-							</a>
-
-							<ul class="dropdown-menu pull-right" role="menu" >
-								<li>
-									<address>
-											ФИО:<br/>
-											<strong><?=$result['some_info']?> <br/> <?=$result['fio']?></strong></br>
-											Зарегистрирован : <br/><strong><?= $result['reg_date'] ?></strong><br/>
-											Права доступа : <strong><?=$result['access_rights']?></strong><br/>
-											Должность : <strong><?=$result['post_of_worker']?></strong><br/>
-											<hr class="short-line"/>
-											<a href="mailto:<?= $result['email']?>"><?= $result['email']?></a>
-											
-									</address>
-								</li>
-							</ul>
-						
-						</li>
 
 						<li>
 							<a href="/php/exit.php">Выход</a>
@@ -126,15 +83,33 @@ else{
 	<ul class="pager">
 		<li>
 			<a href="../index.php">&larr; Главная Панель Управления</a>
-			<?php if($rights =='SUI' || $rights == 'SUID'){?> 
-						<a href="creator.php?ctg=<?=$_GET['cat']?>">Создать</a> 
-			<?php }?>
+			<a href="builder.php?cat=<?=$category?>">&larr;Вернуться в таблицу</a>
 		</li>
 	</ul>
 
-	<table class="table table-bordered table-hover table-condensed">
-			<?php require_once("view.php"); ?>
-	</table>
+	<div class="hero-unit">
+	<form>
+		<?php
+			switch($db->secure($_GET['ctg'])){
+				default: header("Location: ../index.php");
+				case 'sims'       : $catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']); 
+									$catInsData->render();
+									break;
+				case 'devices'    : $catInsData = 0; break;
+				case 'sensors'    : $catInsData = 0; break;
+				case 'autos'      : $catInsData = 0; break;
+				case 'servicesm'  : $catInsData = 0; break;
+				case 'servicess'  : $catInsData = 0; break;
+				case 'workers'    : $catInsData = 0; break;
+				case 'statistics' : $catInsData = 0; break;
+				case 'clients'    : $catInsData = new CViewClients($db->get_link(),$_SESSION['rights']); 
+									$catInsData->render();
+									break;
+			}
+		?>
+
+	</form>
+	</div>
 
 <!--FOOTER-->
 	<hr/>
@@ -145,8 +120,3 @@ else{
 <!--FOOTER-->
 </body>
 </html>
-
-
-<?php
-} // end else 
-

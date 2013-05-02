@@ -90,7 +90,7 @@ else{
 								<li>
 									<address>
 											ФИО:<br/>
-											<strong><?=$result['lastname']?> <br/> <?=$result['firstname']?></strong></br>
+											<strong><?=$result['some_info']?> <br/> <?=$result['fio']?></strong></br>
 											Зарегистрирован : <br/><strong><?= $result['reg_date'] ?></strong><br/>
 											Права доступа : <strong><?=$result['access_rights']?></strong><br/>
 											Должность : <strong><?=$result['post_of_worker']?></strong><br/>

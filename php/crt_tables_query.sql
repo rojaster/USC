@@ -152,8 +152,8 @@ CREATE TABLE `tblSensors`(
 аутентификации*/
 CREATE TABLE `tblWorkers`(
 						`worker_id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-						`firstname` varchar(150) CHARACTER SET utf8 NOT NULL,
-						`lastname` varchar(150) CHARACTER SET utf8 NOT NULL,
+						`fio` varchar(150) CHARACTER SET utf8 NOT NULL,
+						`some_info` varchar(150) CHARACTER SET utf8 NOT NULL,
 						`passport_ser_num` bigint(20) unsigned NOT NULL,
 						`hire_date` date NOT NULL DEFAULT '0000-00-00',
 						`post_of_worker` varchar(200) CHARACTER SET utf8 NOT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE `tblServices` (
 					`tblWorkers$worker_id` int(10) unsigned NOT NULL DEFAULT '0',
 					`status` ENUM("done","performed","not done") CHARACTER SET utf8 NOT NULL,
 					`description` text CHARACTER SET utf8,
-					`serv_type` ENUM("mounting","tech_service") CHARACTER SET utf8 NOT NULL,
+					`serv_type` ENUM("m","ts") CHARACTER SET utf8 NOT NULL,
 					CONSTRAINT `tblAutos_fk2`
 						FOREIGN KEY `tblAutos$auto_id`(`tblAutos$auto_id`)
 						REFERENCES `tblAutos`(`auto_id`)
@@ -220,3 +220,4 @@ CREATE TABLE `tblServices` (
 						REFERENCES `tblWorkers`(`worker_id`)
 						ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
+

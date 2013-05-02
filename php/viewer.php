@@ -58,11 +58,12 @@ class CViewClients extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount;
+		return $fieldsCount+1;
 	}
 
 	public function getFieldsName(){
 		$fieldsName = array();
+		$fieldsName[] = '№';
 		$fieldsName[] = 'Название фирмы';
 		$fieldsName[] = 'Персона для контактов';
 		$fieldsName[] = 'Телефонный номер';
@@ -85,8 +86,10 @@ class CViewClients extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['firm_name']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['contact_person']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['phone_num']."</td>\n";
@@ -104,6 +107,35 @@ class CViewClients extends CViewer implements IViewer{
 		@mysql_free_result($records);
 		return $tableBody;
 	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"firm_name\">Название фирмы: </label>
+							<input type=\"text\" name=\"firm_name\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"person\">Персона для контакта: </label>
+							<input type=\"text\" name=\"person\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"phone\">Телефон: </label>
+							<input type=\"text\" name=\"phone\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"fax_num\">Номер факса: </label>
+							<input type=\"text\" name=\"fax_name\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"email\">Email: </label>
+							<input type=\"text\" name=\"email\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"cl_type\">Тип клиента: </label>
+							<input type=\"text\" name=\"cl_type\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"address\">Адрес клиента: </label>
+							<input type=\"text\" name=\"address\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус клиента: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		print($htmlFormContent);
+
+	}
 }
 
 
@@ -120,11 +152,12 @@ class CViewSimcards extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount; // because i return sim_id 
+		return $fieldsCount+1; // because i return sim_id 
 	}
 
 	function getFieldsName(){
 		$fieldsName = array();
+		$fieldsName[] = '№';
 		$fieldsName[] = 'Сим номер';
 		$fieldsName[] = 'Телефонный номер';
 		$fieldsName[] = 'Статус';
@@ -143,8 +176,10 @@ class CViewSimcards extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sim_number']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['phone_number']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
@@ -157,6 +192,29 @@ class CViewSimcards extends CViewer implements IViewer{
 		}
 		@mysql_free_result($records);
 		return $tableBody;
+	}
+
+	function insDataToTable(){
+
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
 	}
 }
 
@@ -174,11 +232,12 @@ class CViewDevices extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount; // +1 for sim card number from tblsims 
+		return $fieldsCount+1; // +1 for sim card number from tblsims 
 	}
 
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
+		$fieldsName[] = '№';
 		$fieldsName[] = 'Название прибора';
 		$fieldsName[] = 'Номер прибора';
 		$fieldsName[] = 'Серийный номер';
@@ -200,8 +259,10 @@ class CViewDevices extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['dev_name']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['dev_number']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['serial_number']."</td>\n";
@@ -214,6 +275,25 @@ class CViewDevices extends CViewer implements IViewer{
 			$tableBody .= "</tbody>\n";
 		}
 		return $tableBody;
+	}
+
+	function render(){
+		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
+							<input type=\"text\" name=\"NSim\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
+							<input type=\"text\" name=\"PNumber\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
+							<input type=\"text\" name=\"status\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
+							<input type=\"text\" name=\"crdate\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
+							<input type=\"text\" name=\"lic\"
+							";
+		print($htmlFormContent);
 	}
 }
 
@@ -231,12 +311,13 @@ class CViewSensors extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount+1;
+		return $fieldsCount+2;
 	}
 
 
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
+		$fieldsName[] = '№';
 		$fieldsName[] = "ID датчика";
 		$fieldsName[] = "Тип модели";
 		$fieldsName[] = "Серийный номер";
@@ -257,8 +338,10 @@ class CViewSensors extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_id']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['model_type']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_serial']."</td>\n";
@@ -286,11 +369,12 @@ class CViewAutos extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount;
+		return $fieldsCount+1;
 	}
 
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
+		$fieldsName[] = '№';
 		$fieldsName[] = "Гос.номер";
 		$fieldsName[] = "VIN";
 		$fieldsName[] = "Марка";
@@ -312,8 +396,10 @@ class CViewAutos extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['gos_num']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['vin']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['marka']."</td>\n";
@@ -343,11 +429,12 @@ class CViewWorkers extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount+1;
+		return $fieldsCount+2;
 	}
 
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
+		$fieldsName[] = "№";
 		$fieldsName[] = "ИД Работника";
 		$fieldsName[] = "Имя";
 		$fieldsName[] = "Фамилия\Отчество";
@@ -372,11 +459,13 @@ class CViewWorkers extends CViewer implements IViewer{
 		}
 		else{
 			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['worker_id']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['firstname']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['lastname']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['fio']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['some_info']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['passport_ser_num']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['hire_date']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['post_of_worker']."</td>\n";
@@ -391,5 +480,142 @@ class CViewWorkers extends CViewer implements IViewer{
 		@mysql_free_result($records);
 		return $tableBody;
 	}
+}
 
+//for service table
+class CViewServicesM extends Cviewer implements IViewer{
+
+	function __construct($lnk,$rights){
+		$this->tableName = 'tblservices';
+		$this->message = 'Error in CViewServices class, check methods';
+		$this->dblink = $lnk;
+		$this->rights = $rights;
+	}
+
+	function getFieldsCount($dbname,$tableName){// get count of fields for table
+		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
+		$fieldsCount = mysql_num_fields($qr);
+		@mysql_free_result($qr);
+		return $fieldsCount+2; // if was deleted one field
+	}
+
+	function getFieldsName(){					// get a names of fields of table
+		$fieldsName = array();
+		$fieldsName[] = "№";
+		$fieldsName[] = "Номер обслуживания";
+		$fieldsName[] = "Дата начала";
+		$fieldsName[] = "Дата окончания";
+		$fieldsName[] = "Машина";
+		$fieldsName[] = "Сотрудник на выполнение";
+		$fieldsName[] = "Телефон";
+		$fieldsName[] = "Статус";
+		$fieldsName[] = "Описание";
+		//$fieldsName[] = "Тип Сервиса";
+		$fieldsName[] = "Редактирование";
+		return $fieldsName;
+	}
+	
+	function getTableRecords($tableName){		// get a record of fields for table
+		$sql = "SELECT tblservices.*,tblworkers.fio,tblworkers.phone
+				FROM tblservices 
+				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id 
+				WHERE tblservices.serv_type = 1";
+		$records = mysql_query($sql,$this->dblink) or 
+					$this->errorer(" getTableRecords for ".$tableName." is a wrong");
+		if(mysql_num_rows($records) == 0){
+			$tableBody = "<tbody><tr><td colspan=10>NONE ".$this->tableName." dont have a records</td>
+							</tr></tbody>";
+		}
+		else{
+			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
+			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
+				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['serv_id']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['start_date_time']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['finish_date_time']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['tblAutos$auto_id']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['fio']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['phone']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['description']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['serv_type']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$this->getEditMenu($value['serv_id'],$this->rights,$tableName)."</td>\n";
+				$tableBody .= "\t\t</tr>\n";
+			}
+			$tableBody .= "</tbody>\n";
+		}
+		@mysql_free_result($records);
+		return $tableBody;
+	}
+}
+
+
+class CViewServicesTS extends Cviewer implements IViewer{
+
+	function __construct($lnk,$rights){
+		$this->tableName = 'tblservices';
+		$this->message = 'Error in CViewServices class, check methods';
+		$this->dblink = $lnk;
+		$this->rights = $rights;
+	}
+
+	function getFieldsCount($dbname,$tableName){// get count of fields for table
+		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
+		$fieldsCount = mysql_num_fields($qr);
+		@mysql_free_result($qr);
+		return $fieldsCount+2; // if was deleted one field
+	}
+
+	function getFieldsName(){					// get a names of fields of table
+		$fieldsName = array();
+		$fieldsName[] = "№";
+		$fieldsName[] = "Номер обслуживания";
+		$fieldsName[] = "Дата начала";
+		$fieldsName[] = "Дата окончания";
+		$fieldsName[] = "Машина";
+		$fieldsName[] = "Сотрудник на выполнение";
+		$fieldsName[] = "Телефон";
+		$fieldsName[] = "Статус";
+		$fieldsName[] = "Описание";
+		//$fieldsName[] = "Тип Сервиса";
+		$fieldsName[] = "Редактирование";
+		return $fieldsName;
+	}
+	
+	function getTableRecords($tableName){		// get a record of fields for table
+		$sql = "SELECT tblservices.*,tblworkers.fio,tblworkers.phone
+				FROM tblservices 
+				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id 
+				WHERE tblservices.serv_type = 2";
+		$records = mysql_query($sql,$this->dblink) or 
+					$this->errorer(" getTableRecords for".$tableName." is a wrong");
+		if(mysql_num_rows($records) == 0){
+			$tableBody = "<tbody><tr><td colspan=10>NONE ".$this->tableName." dont have a records</td>
+							</tr></tbody>";
+		}
+		else{
+			$tableBody = "\t<tbody>\n";
+			$i = 0; // string number
+			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
+				$tableBody .= "\t\t<tr>\n";
+				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['serv_id']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['start_date_time']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['finish_date_time']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['tblAutos$auto_id']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['fio']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['phone']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['description']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['serv_type']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$this->getEditMenu($value['serv_id'],$this->rights,$tableName)."</td>\n";
+				$tableBody .= "\t\t</tr>\n";
+			}
+			$tableBody .= "</tbody>\n";
+		}
+		@mysql_free_result($records);
+		return $tableBody;
+	}
 }
