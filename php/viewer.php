@@ -43,7 +43,7 @@ abstract class CViewer{
 		die($message);
 	}
 
-	protected function insertData(){
+	public function insertData(){
 		if(!mysql_query($this->insDataToTable(),$this->dblink)){
 			echo("Запрос на добавление произведен с ошибкой! Проверьте правильность заполнения полей или обратитесь к администратору!");
 		}
@@ -67,7 +67,7 @@ class CViewClients extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount+1;
+		return $fieldsCount;
 	}
 
 	public function getFieldsName(){
@@ -80,7 +80,7 @@ class CViewClients extends CViewer implements IViewer{
 		$fieldsName[] = 'Email';
 		$fieldsName[] = 'Тип клиента(юр.лицо, физ.лицо)';
 		$fieldsName[] = 'Адрес фирмы';
-		$fieldsName[] = 'Фото';
+		//$fieldsName[] = 'Фото';
 		$fieldsName[] = 'Статус';
 		$fieldsName[] = 'Редактирование';
 		return $fieldsName;
@@ -106,7 +106,7 @@ class CViewClients extends CViewer implements IViewer{
 				$tableBody .= "\t\t\t<td>".$value['e_mail']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['cl_type']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['address']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['foto']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['foto']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$this->getEditMenu($value['client_id'],$this->rights,$tableName)."</td>\n";
 				$tableBody .= "\t\t</tr>\n";
@@ -391,14 +391,14 @@ class CViewSensors extends CViewer implements IViewer{
 		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
 		$fieldsCount = mysql_num_fields($qr);
 		@mysql_free_result($qr);
-		return $fieldsCount+2;
+		return $fieldsCount+1;
 	}
 
 
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
 		$fieldsName[] = '№';
-		$fieldsName[] = "ID датчика";
+		//$fieldsName[] = "ID датчика";
 		$fieldsName[] = "Тип модели";
 		$fieldsName[] = "Серийный номер";
 		$fieldsName[] = "Статус";
@@ -423,7 +423,7 @@ class CViewSensors extends CViewer implements IViewer{
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
 				$tableBody .= "\t\t<tr>\n";
 				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['sens_id']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['sens_id']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['model_type']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_serial']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_status']."</td>\n";
@@ -438,9 +438,8 @@ class CViewSensors extends CViewer implements IViewer{
 	}
 
 	function jsFormValid(){
-		$jsValid = "if(!$('input[name=model]').val){alert('Model is empty'); return false;}\n";
-		$jsValid .= "if(!$('input[name=serial]').val){alert('Serial is empty'); return false;}\n";
-		$jsValid .= "if(!$('input[name=dev_id]').val){alert('Dev id is empty'); return false;}\n";
+		$jsValid = "if(!$('input[name=model]').val()){alert('Model is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=serial]').val()){alert('Serial is empty'); return false;}\n";
 		print_r($jsValid."\n");
 	}
 
@@ -775,7 +774,7 @@ class CViewServicesM extends Cviewer implements IViewer{
 		$worker = mysql_real_escape_string($_POST['worker']);
 		$stat = mysql_real_escape_string($_POST['status']);
 		$descr = mysql_real_escape_string($_POST['descr']);
-		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos$auto_id`, `tblWorkers$worker_id`, `status`, `description`, `serv_type`)
+		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos\$auto_id`, `tblWorkers\$worker_id`, `status`, `description`, `serv_type`)
 				VALUES (NULL,CURDATE(),'{$fin_date}','{$auto}','{$worker}','{$stat}','{$descr}','m')
 				";
 		return $sql;
@@ -886,7 +885,7 @@ class CViewServicesTS extends Cviewer implements IViewer{
 		$worker = mysql_real_escape_string($_POST['worker']);
 		$stat = mysql_real_escape_string($_POST['status']);
 		$descr = mysql_real_escape_string($_POST['descr']);
-		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos$auto_id`, `tblWorkers$worker_id`, `status`, `description`, `serv_type`)
+		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos\$auto_id`, `tblWorkers\$worker_id`, `status`, `description`, `serv_type`)
 				VALUES (NULL,CURDATE(),'{$fin_date}','{$auto}','{$worker}','{$stat}','{$descr}','ts')
 				";
 		return $sql;

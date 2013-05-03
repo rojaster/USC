@@ -137,7 +137,7 @@ CREATE TABLE `tblSensors`(
 						`sens_serial` int(30) unsigned NOT NULL DEFAULT '0000000',
 						`sens_status` ENUM("using","not used","defected") CHARACTER SET utf8 NOT NULL,
 						`create_date` DATE DEFAULT '0000-00-00',
-						`tblDevices_dev_id` int(30) unsigned DEFAULT '0',
+						`tblDevices_dev_id` int(30) unsigned DEFAULT NULL,
 						CONSTRAINT `tblDevices_fk2`
 							FOREIGN KEY `tblDevices_dev_id`(`tblDevices_dev_id`)
 							REFERENCES `tblDevices`(`dev_id`)
@@ -204,8 +204,8 @@ VALUES ('',CURDATE(),'t_empl2',sha1('t_empl2'),'S',8);
 /*tblServices - таблица учета монтажа, технического обслуживания и прочей фигни*/
 CREATE TABLE `tblServices` (
 					`serv_id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-					`start_date_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-					`finish_date_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+					`start_date_time` DATE NOT NULL DEFAULT '0000-00-00 00:00:00',
+					`finish_date_time` DATE NOT NULL DEFAULT '0000-00-00 00:00:00',
 					`tblAutos$auto_id` int(10) UNSIGNED NOT NULL,
 					`tblWorkers$worker_id` int(10) unsigned NOT NULL DEFAULT '0',
 					`status` ENUM("done","performed","not done") CHARACTER SET utf8 NOT NULL,
