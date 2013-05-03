@@ -42,6 +42,15 @@ abstract class CViewer{
 	protected function errorer($message){
 		die($message);
 	}
+
+	protected function insertData(){
+		if(!mysql_query($this->insDataToTable(),$this->dblink)){
+			echo("Запрос на добавление произведен с ошибкой! Проверьте правильность заполнения полей или обратитесь к администратору!");
+		}
+		else{
+			echo("Запрос на добавление данных произведен успешно!");
+		}
+	}
 }
 
 
@@ -108,9 +117,30 @@ class CViewClients extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=firm_name]').val()) {alert('firm_name is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=person]').val()) {alert('person is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=phone]').val()) {alert('phone is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=fax_num]').val()) {alert('fax_num is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=email]').val()) {alert('email is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=address]').val()) {alert('address is empty'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-			var_dump($_POST);
-		}
+		$firmName = mysql_real_escape_string($_POST['firm_name']);
+		$person = mysql_real_escape_string($_POST['person']);
+		$phone = mysql_real_escape_string($_POST['phone']);
+		$fax_num = mysql_real_escape_string($_POST['fax_num']);
+		$email = mysql_real_escape_string($_POST['email']);
+		$cl_type = mysql_real_escape_string($_POST['cl_type']);
+		$address = mysql_real_escape_string($_POST['address']);
+		$status = mysql_real_escape_string($_POST['status']);
+		$sql = "INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`) 
+				VALUES (NULL,'{$firmName}','{$person}','{$phone}','{$fax_num}','{$email}','{$cl_type}','{$address}',NULL,'{$status}') 
+				";
+		return $sql;
+	}
 
 	function render(){
 		$htmlFormContent = "\t\t\n<label for=\"firm_name\">Название фирмы: </label>
@@ -123,19 +153,29 @@ class CViewClients extends CViewer implements IViewer{
 							<input type=\"text\" name=\"phone\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"fax_num\">Номер факса: </label>
-							<input type=\"text\" name=\"fax_name\">
+							<input type=\"text\" name=\"fax_num\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"email\">Email: </label>
 							<input type=\"text\" name=\"email\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"cl_type\">Тип клиента: </label>
-							<input type=\"text\" name=\"cl_type\">
+							<select name=\"cl_type\">
+								<option>оао</option>
+								<option>зао</option>
+								<option>ип </option>
+								<option>ооо</option>
+								<option>чл </option>
+							</select>
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"address\">Адрес клиента: </label>
 							<input type=\"text\" name=\"address\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус клиента: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option>active</option>
+								<option>blocked</option>
+								<option>black_list</option>
+							</select>
 							";
 		print($htmlFormContent);
 	}
@@ -197,8 +237,22 @@ class CViewSimcards extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=NSim]').val()){alert('SimNum is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=PNumber]').val()){alert('Phone Num is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=lic]').val()){alert('Lic schet is empty'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$nsim = mysql_real_escape_string($_POST['NSim']);
+		$pnum = mysql_real_escape_string($_POST['PNumber']);
+		$stat = mysql_real_escape_string($_POST['status']);
+		$lic = mysql_real_escape_string($_POST['lic']);
+		$sql = "INSERT INTO `tblsims`(`sim_id`, `sim_number`, `phone_number`, `status`, `dateofcreate`, `lic_schet`) 
+				VALUES (NULL,'{$nsim}','{$pnum}','{$stat}',CURDATE(),'{$lic}')
+				";
+		return $sql;
 	}
 
 	function render(){
@@ -246,8 +300,7 @@ class CViewDevices extends CViewer implements IViewer{
 	function getFieldsName(){					// get a names of fields of table
 		$fieldsName = array();
 		$fieldsName[] = '№';
-		$fieldsName[] = 'Название прибора';
-		$fieldsName[] = 'Номер прибора';
+		$fieldsName[] = 'Модель прибора';
 		$fieldsName[] = 'Серийный номер';
 		$fieldsName[] = 'IMEI';
 		$fieldsName[] = 'Статус';
@@ -272,7 +325,6 @@ class CViewDevices extends CViewer implements IViewer{
 				$tableBody .= "\t\t<tr>\n";
 				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['dev_name']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['dev_number']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['serial_number']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['IMEI']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
@@ -285,25 +337,41 @@ class CViewDevices extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=dev_name]').val()){alert('Dev name is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=serial]').val()){alert('Serial is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=imei]').val()){alert('IMEI is empty'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$devname = mysql_real_escape_string($_POST['dev_name']);
+		$serial = mysql_real_escape_string($_POST['serial']);
+		$imei = mysql_real_escape_string($_POST['imei']);
+		$status = mysql_real_escape_string($_POST['status']);
+		$sql = "INSERT INTO `tbldevices`(`dev_id`, `dev_name`, `serial_number`, `IMEI`, `status`, `dev_date`) 
+				VALUES (NULL,'{$devname}','{$serial}','{$imei}','{$status}',CURDATE())
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"dev_name\">Модель прибора: </label>
+							<input type=\"text\" name=\"dev_name\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"serial\">Серийный номер: </label>
+							<input type=\"text\" name=\"serial\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"imei\">IMEI: </label>
+							<input type=\"text\" name=\"imei\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
-							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
-							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+							<select name=\"status\">
+								<option>free</option>
+								<option>busy</option>
+								<option>reserve</option>
+								<option>defects</option>
+							</select>
 							";
 		print($htmlFormContent);
 	}
@@ -334,6 +402,7 @@ class CViewSensors extends CViewer implements IViewer{
 		$fieldsName[] = "Тип модели";
 		$fieldsName[] = "Серийный номер";
 		$fieldsName[] = "Статус";
+		$fieldsName[] = "Дата внесения записи";
 		$fieldsName[] = "ID прибора";
 		$fieldsName[] = "Редактирование";
 		return $fieldsName;
@@ -345,7 +414,7 @@ class CViewSensors extends CViewer implements IViewer{
 		$records = mysql_query($sql,$this->dblink) or 
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
-			$tableBody = "<tbody><tr><td colspan=6>NONE ".$this->tableName." dont have a records</td>
+			$tableBody = "<tbody><tr><td colspan=8>NONE ".$this->tableName." dont have a records</td>
 							</tr></tbody>";
 		}
 		else{
@@ -358,6 +427,7 @@ class CViewSensors extends CViewer implements IViewer{
 				$tableBody .= "\t\t\t<td>".$value['model_type']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_serial']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['sens_status']."</td>\n";
+				$tableBody .= "\t\t\t<td>".$value['create_date']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['tblDevices_dev_id']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$this->getEditMenu($value['sens_id'],$this->rights,$tableName)."</td>\n";
 				$tableBody .= "\t\t</tr>\n";
@@ -367,25 +437,40 @@ class CViewSensors extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=model]').val){alert('Model is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=serial]').val){alert('Serial is empty'); return false;}\n";
+		$jsValid .= "if(!$('input[name=dev_id]').val){alert('Dev id is empty'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$model = mysql_real_escape_string($_POST['model']);
+		$serial = mysql_real_escape_string($_POST['serial']);
+		$status = mysql_real_escape_string($_POST['status']);
+		$devid = mysql_real_escape_string($_POST['dev_id']);
+		$sql = "INSERT INTO `tblsensors`(`sens_id`, `model_type`, `sens_serial`, `sens_status`, `create_date`, `tblDevices_dev_id`) 
+				VALUES (NULL,'{$model}','{$serial}','{$status}',CURDATE(),'{$devid}')
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"model\">Модель датчика: </label>
+							<input type=\"text\" name=\"model\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"serial\">Серийный номер: </label>
+							<input type=\"text\" name=\"serial\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option selected>not used</option>
+								<option>used</option>
+								<option>defected</option>
+							</select>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
-							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+		$htmlFormContent .= "\t\t\n<label for=\"dev_id\">Идентификатор прибора: </label>
+							<input type=\"text\" name=\"dev_id\">
 							";
 		print($htmlFormContent);
 	}
@@ -449,25 +534,49 @@ class CViewAutos extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=gnum]').val()){alert('Гос номер пуст'); return false;}\n";
+		$jsValid .= "if(!$('input[name=vin]').val()){alert('VIN пустое поле'); return false;}\n";
+		$jsValid .= "if(!$('input[name=marka]').val()){alert('Поле марка пуста'); return false;}\n";
+		$jsValid .= "if(!$('input[name=cdate]').val()){alert('Дата подключение пусто'); return false;}\n";
+		$jsValid .= "if(!$('input[name=client]').val()){alert('Не указан номер клиента'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$gnum = mysql_real_escape_string($_POST['gnum']);
+		$vin = mysql_real_escape_string($_POST['vin']);
+		$marka = mysql_real_escape_string($_POST['marka']);
+		$status = mysql_real_escape_string($_POST['status']);
+		$cdate = mysql_real_escape_string($_POST['cdate']);
+		$client = mysql_real_escape_string($_POST['client']);
+		$sql = "INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
+				VALUES (NULL,'{$gnum}','{$vin}','{$marka}','{$status}','{$cdate}','{$client}')
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"gnum\">Государственный номер: </label>
+							<input type=\"text\" name=\"gnum\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"vin\">VIN: </label>
+							<input type=\"text\" name=\"vin\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"marka\">Марка автомобиля: </label>
+							<input type=\"text\" name=\"marka\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option>not_active</option>
+								<option>active</option>
+							</select>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
+		$htmlFormContent .= "\t\t\n<label for=\"cdate\">Дата подключения: </label>
+							<input type=\"text\" name=\"cdate\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+		$htmlFormContent .= "\t\t\n<label for=\"client\">Клиент: </label>
+							<input type=\"text\" name=\"client\">
 							";
 		print($htmlFormContent);
 	}
@@ -475,7 +584,6 @@ class CViewAutos extends CViewer implements IViewer{
 
 //for Workers and auth Info information
 class CViewWorkers extends CViewer implements IViewer{
-
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblworkers';
 		$this->message = 'Error in CViewWorkers class, check methods';
@@ -539,25 +647,49 @@ class CViewWorkers extends CViewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=fio]').val()){alert('ФИО необходимо заполнить'); return false;}\n";
+		$jsValid .= "if(!$('input[name=pass_num]').val()){alert('Паспортные данные пусты'); return false;}\n";
+		$jsValid .= "if(!$('input[name=post]').val()){alert('Не указана должность'); return false;}\n";
+		$jsValid .= "if(!$('input[name=phone]').val()){alert('Телефон не указан'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$fio = mysql_real_escape_string($_POST['fio']);
+		$info = mysql_real_escape_string($_POST['info']);
+		$pass = mysql_real_escape_string($_POST['pass_num']);
+		$post = mysql_real_escape_string($_POST['post']);
+		$phone = mysql_real_escape_string($_POST['phone']);
+		$email = mysql_real_escape_string($_POST['email']);
+		$add_info = mysql_real_escape_string($_POST['add_info']);
+		$sql = "INSERT INTO `tblworkers`(`worker_id`, `fio`, `some_info`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+				VALUES (NULL,'{$fio}','{$info}','{$pass}',CURDATE(),'{$post}','{$phone}','{$email}','{$add_info}')
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"fio\">ФИО: </label>
+							<input type=\"text\" name=\"fio\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"info\">Информация: </label>
+							<textarea name=\"info\" rows=6 cols=10></textarea>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+		$htmlFormContent .= "\t\t\n<label for=\"pass_num\">Паспорт (серия, номер): </label>
+							<input type=\"text\" name=\"pass_num\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
+		$htmlFormContent .= "\t\t\n<label for=\"post\">Должность: </label>
+							<input type=\"text\" name=\"post\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+		$htmlFormContent .= "\t\t\n<label for=\"phone\">Телеофон: </label>
+							<input type=\"text\" name=\"phone\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"email\">EMAIL: </label>
+							<input type=\"text\" name=\"email\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"add_inf\">Дополнительная информация: </label>
+							<textarea name=\"add_info\" rows=6 cols=10></textarea>
 							";
 		print($htmlFormContent);
 	}
@@ -565,7 +697,6 @@ class CViewWorkers extends CViewer implements IViewer{
 
 //for service table
 class CViewServicesM extends Cviewer implements IViewer{
-
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblservices';
 		$this->message = 'Error in CViewServices class, check methods';
@@ -631,25 +762,44 @@ class CViewServicesM extends Cviewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=fin_date]').val()){alert('Не выставлена дата окончания'); return false;}\n";
+		$jsValid .= "if(!$('input[name=auto_id]').val()){alert('Не указана машина для монтажа'); return false;}\n";
+		$jsValid .= "if(!$('input[name=worker]').val()){alert('Не определен работник для исполнения'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$fin_date = mysql_real_escape_string($_POST['fin_date']);
+		$auto = mysql_real_escape_string($_POST['auto_id']);
+		$worker = mysql_real_escape_string($_POST['worker']);
+		$stat = mysql_real_escape_string($_POST['status']);
+		$descr = mysql_real_escape_string($_POST['descr']);
+		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos$auto_id`, `tblWorkers$worker_id`, `status`, `description`, `serv_type`)
+				VALUES (NULL,CURDATE(),'{$fin_date}','{$auto}','{$worker}','{$stat}','{$descr}','m')
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"fin_date\">Дата окончания: </label>
+							<input type=\"text\" name=\"fin_date\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"auto_id\">ID Машины: </label>
+							<input type=\"text\" name=\"auto_id\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"worker\">ID Работник: </label>
+							<input type=\"text\" name=\"worker\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option selected>not done</option>
+								<option>performed</option>
+								<option>done</option>
+							</select>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
-							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+		$htmlFormContent .= "\t\t\n<label for=\"descr\">Описание: </label>
+							<textarea rows=7 cols=16 name=\"descr\"></textarea>
 							";
 		print($htmlFormContent);
 	}
@@ -723,25 +873,44 @@ class CViewServicesTS extends Cviewer implements IViewer{
 		return $tableBody;
 	}
 
+	function jsFormValid(){
+		$jsValid = "if(!$('input[name=fin_date]').val()){alert('Не выставлена дата окончания'); return false;}\n";
+		$jsValid .= "if(!$('input[name=auto_id]').val()){alert('Не указана машина для монтажа'); return false;}\n";
+		$jsValid .= "if(!$('input[name=worker]').val()){alert('Не определен работник для исполнения'); return false;}\n";
+		print_r($jsValid."\n");
+	}
+
 	function insDataToTable(){
-		var_dump($_POST);
+		$fin_date = mysql_real_escape_string($_POST['fin_date']);
+		$auto = mysql_real_escape_string($_POST['auto_id']);
+		$worker = mysql_real_escape_string($_POST['worker']);
+		$stat = mysql_real_escape_string($_POST['status']);
+		$descr = mysql_real_escape_string($_POST['descr']);
+		$sql = "INSERT INTO `tblservices`(`serv_id`, `start_date_time`, `finish_date_time`, `tblAutos$auto_id`, `tblWorkers$worker_id`, `status`, `description`, `serv_type`)
+				VALUES (NULL,CURDATE(),'{$fin_date}','{$auto}','{$worker}','{$stat}','{$descr}','ts')
+				";
+		return $sql;
 	}
 
 	function render(){
-		$htmlFormContent = "\t\t\n<label for=\"NSim\">Сим номер: </label>
-							<input type=\"text\" name=\"NSim\">
+		$htmlFormContent = "\t\t\n<label for=\"fin_date\">Дата окончания: </label>
+							<input type=\"text\" name=\"fin_date\">
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"PNumber\">Телефонный номер: </label>
-							<input type=\"text\" name=\"PNumber\">
+		$htmlFormContent .= "\t\t\n<label for=\"auto_id\">ИД машины: </label>
+							<input type=\"text\" name=\"auto_id\">
+							";
+		$htmlFormContent .= "\t\t\n<label for=\"worker\">Работник: </label>
+							<input type=\"text\" name=\"worker\">
 							";
 		$htmlFormContent .= "\t\t\n<label for=\"status\">Статус: </label>
-							<input type=\"text\" name=\"status\">
+							<select name=\"status\">
+								<option selected>not done</option>
+								<option>performed</option>
+								<option>done</option>
+							</select>
 							";
-		$htmlFormContent .= "\t\t\n<label for=\"crdate\">Дата создания: </label>
-							<input type=\"text\" name=\"crdate\">
-							";
-		$htmlFormContent .= "\t\t\n<label for=\"lic\">Лицевой счет: </label>
-							<input type=\"text\" name=\"lic\"
+		$htmlFormContent .= "\t\t\n<label for=\"descr\">Описание: </label>
+							<textarea rows=7 cols=16 name=\"descr\"></textarea>
 							";
 		print($htmlFormContent);
 	}

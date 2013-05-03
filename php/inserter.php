@@ -28,4 +28,4 @@ $category = $db->secure($_GET['ctg']);
 		default           : header("Location: exit.php"); // go away, kiddi
 	}
 
-$catInsData->insDataToTable();
+$catInsData->insertData();

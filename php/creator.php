@@ -56,13 +56,19 @@ $category = $db->secure($_GET['ctg']);
 			var mthd = $(this).attr('method');
 			var act = $(this).attr('action');
 			var fdata = $(this).serialize();
+			<?=$catInsData->jsFormValid();?>
 			$.ajax({
 				type   : mthd,
 				url    : act,
-				data   : fdata
+				data   : fdata,
 				success: function(result){
-					alert('Data was inserted');
-					$('footer').after(result);
+							alert(result);
+							$('#frm').each(function(){
+								this.reset();
+							});
+				},
+				error  : function(e,stat,errThrown){
+					alert('Запрос Ajax на внесение данных не удался: ' + stat);
 				}
 			});
 		});
@@ -121,12 +127,12 @@ $category = $db->secure($_GET['ctg']);
 	</ul>
 
 	<div class="hero-unit">
-	<form id="frm">
+	<form id="frm" action="inserter.php?ctg=<?=$category?>" method="post">
 		<?php
 			$catInsData->render();
 		?>
 	<br/>
-	<button type="submit" name="push" formaction="inserter.php?ctg=<?=$category?>" formmethod="POST">Внести</button>
+	<button type="submit">Внести</button>
 	</form>
 	</div>
 

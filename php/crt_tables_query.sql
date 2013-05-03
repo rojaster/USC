@@ -16,7 +16,7 @@ CREATE TABLE tblClients(
 						phone_num int(20) UNSIGNED NOT NULL DEFAULT '0',
 						fax_num int(20) UNSIGNED NOT NULL DEFAULT '0',
 						e_mail VARCHAR(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
-						cl_type ENUM("fl","ul") CHARACTER SET utf8 NULL,
+						cl_type ENUM("оао","зао","ип","чл","ооо") CHARACTER SET utf8 NULL,
 						address TEXT CHARACTER SET utf8 , 
 						foto int(10) UNSIGNED DEFAULT NULL,
 						status ENUM("active","blocked","black_list") CHARACTER SET utf8 NULL,
@@ -73,7 +73,6 @@ VALUES ('','з454шк','9517532584456','mitsubishi','not_active',CURDATE(),8);
 CREATE TABLE `tblDevices` (
  `dev_id` int(30) unsigned NOT NULL AUTO_INCREMENT,
  `dev_name` varchar(150) CHARACTER SET utf8 DEFAULT 'not defined',
- `dev_number` int(30) unsigned DEFAULT '0',
  `serial_number` int(30) unsigned DEFAULT '0',
  `IMEI` int(20) unsigned DEFAULT '0',
  `status` ENUM("free","busy","reserve","defects") DEFAULT NULL,
@@ -137,6 +136,7 @@ CREATE TABLE `tblSensors`(
 						`model_type` text CHARACTER SET utf8,
 						`sens_serial` int(30) unsigned NOT NULL DEFAULT '0000000',
 						`sens_status` ENUM("using","not used","defected") CHARACTER SET utf8 NOT NULL,
+						`create_date` DATE DEFAULT '0000-00-00',
 						`tblDevices_dev_id` int(30) unsigned DEFAULT '0',
 						CONSTRAINT `tblDevices_fk2`
 							FOREIGN KEY `tblDevices_dev_id`(`tblDevices_dev_id`)
