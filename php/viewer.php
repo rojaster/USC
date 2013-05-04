@@ -695,7 +695,7 @@ class CViewWorkers extends CViewer implements IViewer{
 }
 
 //for service table
-class CViewServicesM extends Cviewer implements IViewer{
+class CViewServicesM extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblservices';
 		$this->message = 'Error in CViewServices class, check methods';
@@ -805,7 +805,7 @@ class CViewServicesM extends Cviewer implements IViewer{
 }
 
 
-class CViewServicesTS extends Cviewer implements IViewer{
+class CViewServicesTS extends CViewer implements IViewer{
 
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblservices';
