@@ -1,25 +1,26 @@
 Database scheme {/*db_struct_diagramm.jpeg*/
 		tblClients 1-$> tblAutos (client_id)
 		tblSims <1-1> tblDevices(sim_id) /*моделируем через ассоциативную таблицу*/
-		tblDevices 1-$>tblSensors(dev_id)
 		tblDevices <1-1> tblAutos(dev_id) /*моделируем через ассоциативную таблицу*/
 		tblWorkers <1-1> auth /*воркеры, которые работают с системой*/
-		tblServices(auto_id,worker_id,)
+		tblDevices <1-$> tblSensors /*через ассоциативную таблицу*/
+		tblServices()
 }
 
 
 /*создание таблицы клиенты*/
 CREATE TABLE tblClients(
-						client_id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-						firm_name VARCHAR(150) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
-						contact_person VARCHAR(150) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
-						phone_num int(20) UNSIGNED NOT NULL DEFAULT '0',
-						fax_num int(20) UNSIGNED NOT NULL DEFAULT '0',
-						e_mail VARCHAR(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
-						cl_type ENUM("оао","зао","ип","чл","ооо") CHARACTER SET utf8 NULL,
-						address TEXT CHARACTER SET utf8 , 
-						foto int(10) UNSIGNED DEFAULT NULL,
-						status ENUM("active","blocked","black_list") CHARACTER SET utf8 NULL,
+						`client_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+						`firm_name` VARCHAR(150) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
+						`contact_person` VARCHAR(150) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
+						`phone_num` int(20) UNSIGNED NOT NULL DEFAULT '0',
+						`fax_num` int(20) UNSIGNED NOT NULL DEFAULT '0',
+						`e_mail` VARCHAR(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
+						`cl_type` ENUM("оао","зао","ип","чл","ооо") CHARACTER SET utf8 NULL,
+						`address` TEXT CHARACTER SET utf8 , 
+						`wialon` varchar(100) CHARACTER SET utf8 DEFAULT 'none' NOT NULL,
+						`status` ENUM("active","blocked","black_list") CHARACTER SET utf8 NULL,
+						`info` TEXT NULL DEFAULT NULL,
 						PRIMARY KEY(client_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 /*Тестовые данные клиента*/
@@ -42,7 +43,6 @@ VALUES ('','sherbac','Щербаков Щербацкий Щербанович',
 CREATE TABLE tblAutos(
 						`auto_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 						`gos_num` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'not def',
-						`vin` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not def',
 						`marka` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not def',
 						`status` ENUM("active","not_active") CHARACTER SET utf8 NULL,
 						`conn_date` date DEFAULT '0000-00-00',
@@ -72,9 +72,9 @@ VALUES ('','з454шк','9517532584456','mitsubishi','not_active',CURDATE(),8);
 чтобы потом смотреть на каком приборе есть симка, кто без симки - устанавливая либо ее id, либо 0*/
 CREATE TABLE `tblDevices` (
  `dev_id` int(30) unsigned NOT NULL AUTO_INCREMENT,
- `dev_name` varchar(150) CHARACTER SET utf8 DEFAULT 'not defined',
- `serial_number` int(30) unsigned DEFAULT '0',
- `IMEI` int(20) unsigned DEFAULT '0',
+ `dev_model` varchar(150) CHARACTER SET utf8 DEFAULT 'not defined',
+ `serial_number` bigint(30) unsigned DEFAULT '0',
+ `IMEI` bigint(20) unsigned DEFAULT '0',
  `status` ENUM("free","busy","reserve","defects") DEFAULT NULL,
  `dev_date` date DEFAULT '0000-00-00',
   PRIMARY KEY (`dev_id`)
@@ -135,15 +135,25 @@ CREATE TABLE `tblSensors`(
 						`sens_id` int(30) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 						`model_type` text CHARACTER SET utf8,
 						`sens_serial` int(30) unsigned NOT NULL DEFAULT '0000000',
-						`sens_status` ENUM("using","not used","defected") CHARACTER SET utf8 NOT NULL,
-						`create_date` DATE DEFAULT '0000-00-00',
-						`tblDevices_dev_id` int(30) unsigned DEFAULT NULL,
-						CONSTRAINT `tblDevices_fk2`
-							FOREIGN KEY `tblDevices_dev_id`(`tblDevices_dev_id`)
-							REFERENCES `tblDevices`(`dev_id`)
+						`sens_status` ENUM("using","not_used","defected") CHARACTER SET utf8 NOT NULL,
+						`cr_date` DATE DEFAULT '0000-00-00'			/*дата создания записи о датчике*/
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-
+/*devsens - таблица для связи датчиков с приборами*/
+CREATE TABLE `devsens`(
+						`id` int(30) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+						`dev_id` int(30) unsigned NOT NULL,
+						`sens_id` int(30) unsigned NOT NULL,
+						`mont_date` DATE DEFAULT '0000-00-00',
+						CONSTRAINT `dev_fk1`
+							FOREIGN KEY `dev_id`(`dev_id`)
+							REFERENCES `tblDevices`(`dev_id`)
+							ON DELETE CASCADE ON UPDATE CASCADE,
+						CONSTRAINT `sens_fk2`
+							FOREIGN KEY `sens_id`(`sens_id`)
+							REFERENCES `tblSensors`(`sens_id`)
+							ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 
 /*tblWorkers - таблица воркеров , что рабоают в фирме свяжем ее с таблицей аутентификации,
@@ -153,9 +163,9 @@ CREATE TABLE `tblSensors`(
 CREATE TABLE `tblWorkers`(
 						`worker_id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 						`fio` varchar(150) CHARACTER SET utf8 NOT NULL,
-						`some_info` varchar(150) CHARACTER SET utf8 NOT NULL,
 						`passport_ser_num` bigint(20) unsigned NOT NULL,
 						`hire_date` date NOT NULL DEFAULT '0000-00-00',
+						`fire_date` date NOT NULL DEFAULT '0000-00-00',
 						`post_of_worker` varchar(200) CHARACTER SET utf8 NOT NULL,
 						`phone` bigint(11) unsigned DEFAULT '00000000000',
 						`email` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not_def',
