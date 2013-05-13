@@ -31,10 +31,10 @@ abstract class CViewer{
 
 	public function getEditMenu($recID,$rights,$tableName){
 		switch($rights){
-			case 'SUID': return "<a href=\"rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a> 
-						&nbsp;&nbsp;<a href=\"rec_editor.php?id={$recID}&action=deleteid&table={$tableName}\">Удалить</a>";
+			case 'SUID': return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a> 
+						&nbsp;&nbsp;<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=deleteid&table={$tableName}\">Удалить</a>";
 			case 'SUI' : 
-			case 'SU'  : return "<a href=\"rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a>";
+			case 'SU'  : return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a>";
 			default: return "--------";
 		}
 	}

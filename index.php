@@ -2,7 +2,8 @@
 /********************************************
 *Main Control Panel Page*
 ********************************************/
-require_once("/php/controller/connecter.php");
+require_once('/php/controller/connecter.php');
+require_once('/php/globals.php');
 
 @session_start(); // start session 
 
@@ -43,56 +44,56 @@ else{
 	<div class="hero-unit">
 		<ul class="thumbnails">
 			<li>
-			<a href="/php/controller/builder.php?cat=sims" class="thumbnail">
-				SIM
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/controller/builder.php?cat=devices" class="thumbnail">
-				ПРИБОРЫ
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/controller/builder.php?cat=sensors" class="thumbnail">
-				ДАТЧИКИ
+			<a href="/php/controller/builder.php?cat=clients" class="thumbnail">
+				<?=__CLIENTS__?>
 			</a>
 			</li>
 
 			<li>
 			<a href="/php/controller/builder.php?cat=autos" class="thumbnail">
-				АВТО
+				<?=__AUTOS__?>
+			</a>
+			</li>
+
+			<li>
+			<a href="/php/controller/builder.php?cat=sims" class="thumbnail">
+			<?=__SIM__?>
+			</a>
+			</li>
+
+			<li>
+			<a href="/php/controller/builder.php?cat=devices" class="thumbnail">
+				<?=__DEVICES__?>
+			</a>
+			</li>
+
+			<li>
+			<a href="/php/controller/builder.php?cat=sensors" class="thumbnail">
+				<?=__SENSORS__?>
 			</a>
 			</li>
 
 			<li>
 			<a href="/php/controller/builder.php?cat=servicesm" class="thumbnail">
-				МОНТАЖ
+				<?=__MONTAGE__?>
 			</a>
 			</li>
 
 			<li>
 			<a href="/php/controller/builder.php?cat=servicess" class="thumbnail">
-				Заявки на <br/>тех. обслуживание
+				<?=__TSERVICE__?>
 			</a>
 			</li>
 
 			<li>
 			<a href="/php/controller/builder.php?cat=workers" class="thumbnail">
-				РАБОТНИКИ
+				<?=__WORKERS__?>
 			</a>
 			</li>
 
 			<li>
 			<a href="/php/controller/builder.php?cat=statistics" class="thumbnail">
-				СТАТИСТИКА
-			</a>
-			</li>
-
-			<li>
-			<a href="/php/controller/builder.php?cat=clients" class="thumbnail">
-				КЛИЕНТЫ
+				<?=__STATISTICS__?>
 			</a>
 			</li>
 		</ul>
