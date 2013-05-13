@@ -4,10 +4,11 @@ inserter.php is a script which call insDataToTable()
 and insert data at table for object
 ************************************************/
 @session_start();
-require_once('viewer.php');
+require_once('/../modeller/classes.php');
+require_once('/../globals.php');
 
-if(empty($_SESSION['sess_token'])) header("Location: exit.php");
-$category = $db->secure($_GET['ctg']);
+if(empty($_SESSION['sess_token'])) header("Location:".__EXIT__);
+$category = Connetcter::secure($_GET['ctg']);
 	switch($category){
 		case 'sims'       : $catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']);
 							break;
@@ -25,7 +26,7 @@ $category = $db->secure($_GET['ctg']);
 							break;
 		case 'clients'    : $catInsData = new CViewClients($db->get_link(),$_SESSION['rights']); // create a client viewer object
 							break;
-		default           : header("Location: exit.php"); // go away, kiddi
+		default           : header("Location:".__EXIT__); // go away, kiddi
 	}
 
 $catInsData->insertData();

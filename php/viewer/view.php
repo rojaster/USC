@@ -1,6 +1,6 @@
 <?php
-require_once("viewer.php"); // class header file 
-
+require_once('/../modeller/classes.php'); // class header file 
+require_once('/../globals.php'); // globals parameters and constants
 /**************************************************************
 __costruct for class get two parameters 
 object = new className(database link, rights for current user)
@@ -35,5 +35,5 @@ switch($category){
 		case 'clients'    : $catInfo = new CViewClients($db->get_link(),$rights); // create a client viewer object
 						    $catInfo->viewCatData($db->get_dbname());             // get a data for viewing of clients table
 						    break;
-		default           : header("Location: exit.php"); // go away, kiddi
+		default           : header("Location:".__EXIT__); // go away, kiddi
 	}

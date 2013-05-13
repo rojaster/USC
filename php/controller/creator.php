@@ -3,10 +3,11 @@
 * For Create a new record in the category
 * use viewer.php class 
 ************************************************/
-require_once("viewer.php");
+require_once('/../modeller/classes.php');
+require_once('/../globals.php');
 @session_start();
-if(empty($_SESSION['sess_token'])) header("Location: exit.php");
-$category = $db->secure($_GET['ctg']);
+if(empty($_SESSION['sess_token'])) header("Location:".__EXIT__);
+$category = Connecter::secure($_GET['ctg']);
 	switch($category){
 		case 'sims'       : $cat_header = 'SIM'; 
 							$catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']);
@@ -33,7 +34,7 @@ $category = $db->secure($_GET['ctg']);
 							$catInsData = new CViewClients($db->get_link(),$_SESSION['rights']);
 							break;
 		//case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
-		default: header("Location: exit.php");
+		default: header("Location:".__EXIT__);
 	}
 
 ?>
@@ -109,7 +110,7 @@ $category = $db->secure($_GET['ctg']);
 
 
 						<li>
-							<a href="/php/exit.php">Выход</a>
+							<a href="<?=__EXIT__?>">Выход</a>
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
@@ -121,13 +122,13 @@ $category = $db->secure($_GET['ctg']);
 	<h1><?=$cat_header?></h1>
 	<ul class="pager">
 		<li>
-			<a href="../index.php">&larr; Главная Панель Управления</a>
-			<a href="builder.php?cat=<?=$category?>">&larr;Вернуться в таблицу</a>
+			<a href="/../../index.php">&larr; Главная Панель Управления</a>
+			<a href="/builder.php?cat=<?=$category?>">&larr;Вернуться в таблицу</a>
 		</li>
 	</ul>
 
 	<div class="hero-unit">
-	<form id="frm" action="inserter.php?ctg=<?=$category?>" method="post">
+	<form id="frm" action="/inserter.php?ctg=<?=$category?>" method="post">
 		<?php
 			$catInsData->render();
 		?>

@@ -108,7 +108,7 @@ setcookie("PHPSESSID","",time()-3600,"/",$_SERVER['SERVER_NAME']);
 	</header>
 
 	<div class="container">
-		<form class="form-signin" method="POST" action="auth_builder.php" id="frm">
+		<form class="form-signin" method="POST" action="/php/controller/auth_builder.php" id="frm">
 			<h2 class="form-signin-heading">Авторизация</h2>
 			<input type="text" class="input-block-level" placeholder="Логин" name="u_name">
 			<input type="password" class="input-block-level" placeholder="Пароль" name="u_pass">

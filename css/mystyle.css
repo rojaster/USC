@@ -20,7 +20,8 @@ h1{
 	text-align:    center;
 	letter-spacing:-3px;
 	/*color:         #727273;*/
-	color:           #2795CC;
+	/*color:           #2795CC;*/
+	color:         #2e78a6;
 	margin-bottom: 0px;
 }
 
@@ -52,11 +53,65 @@ h1{
 	margin-top:    0px;
 }
 
+.navbar-inverse > .navbar-inner, .navbar .btn-navbar{
+	background: #2e78a6; /* Old browsers */
+	background: -moz-linear-gradient(top, #2e78a6 9%, #275985 50%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(9%,#2e78a6), color-stop(50%,#275985)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #2e78a6 9%,#275985 50%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #2e78a6 9%,#275985 50%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #2e78a6 9%,#275985 50%); /* IE10+ */
+	background: linear-gradient(to bottom, #2e78a6 9%,#275985 50%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e78a6', endColorstr='#275985',GradientType=0 ); /* IE6-9 */
+	border: 0px;
+	border-bottom: 4px solid #204366;
+	border-radius: 0px;
+}
+
+.navbar .divider-vertical{
+	background-color: #2e78a6;
+	border-right: 1px solid #2e78a6;
+}
+
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, 
+.navbar-inverse .nav li.dropdown.active > .dropdown-toggle, 
+.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
+	color: white;
+	font-size: 12pt;
+	border-radius: 10px;
+	border-bottom: 1px solid white;
+	padding-bottom: 2px;
+	background-color: inherit;
+}
+
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+	color: white;
+	font-size: 12pt;
+	border-radius: 10px;
+	border-bottom: 1px solid white;
+	padding-bottom: 2px;
+}
+
+.navbar .nav > li > a:hover {
+	color: white;
+	font-size: 12pt;
+	border-radius: 10px;
+	border-bottom: 1px solid white;
+	padding-bottom: 2px;
+}
+
+.navbar .nav > li > a {
+	color: white;
+}
+
+
 .navbar-inverse .brand{
 	color:#FFFFFF;
 	cursor: default;
 }
 
+.dropdown > .dropdown-toggle{
+	font-size: 11pt;
+}
 
 .dropdown-menu > li{
 	padding:15px;
@@ -76,16 +131,16 @@ h1{
 	width:90px;
 	margin:5px;
 	padding:0px;
-	
 	text-align:left;
 }
 
 .thumbnail{
-	padding:         40px;
+	padding:         20px;
 	text-align:      center;
 	border-radius:   0px;
 	background-color:#F5F5F7;
 	width:           200px;
+	color:  #2e78a6;
 }
 
 .thumbnails{
