@@ -33,18 +33,19 @@ if(md5($result['id'].'_'.$result['reg_date']) != $_SESSION['sess_token']){
 }
 else{
 	switch($category){
-		case 'sims'			: $cat_header = __SIM__			; 	break;
-		case 'devices'		: $cat_header = __DEVICES__		; 	break;
-		case 'sensors'		: $cat_header = __SENSORS__		; 	break;
-		case 'autos'		: $cat_header = __AUTOS__		; 	break;
+		case 'sims'			: $cat_header = __SIM__			;	break;
+		case 'devices'		: $cat_header = __DEVICES__		;	break;
+		case 'sensors'		: $cat_header = __SENSORS__		;	break;
+		case 'autos'		: $cat_header = __AUTOS__		;	break;
 		case 'servicesm'	: $cat_header = __MONTAGE__		;	break;
-		case 'servicess'	: $cat_header = __TSERVICE__	; 	break;
-		case 'workers'		: $cat_header = __WORKERS__		; 	break;
-		case 'statistics'	: $cat_header = __STATISTICS__	; 	break;
-		case 'clients'		: $cat_header = __CLIENTS__		; 	break;
+		case 'servicess'	: $cat_header = __TSERVICE__	;	break;
+		case 'workers'		: $cat_header = __WORKERS__		;	break;
+		case 'statistics'	: $cat_header = __STATISTICS__	;	break;
+		case 'clients'		: $cat_header = __CLIENTS__		;	break;
 		default 			: header("Location:".__EXIT__)	;
 	}
 ?>
+
 <!DOCTYPE html>
 <html>
 	<?php include_once('/../viewer/head.php'); ?>
@@ -55,6 +56,7 @@ else{
 	<ul class="pager">
 		<li>
 			<a href="<?=__MAIN__?>">&larr; Главная Панель Управления</a>
+			
 			<?php if($rights =='SUI' || $rights == 'SUID'){?> 
 						<a href="/php/controller/creator.php?ctg=<?=$_GET['cat']?>">Создать</a> 
 			<?php }?>
