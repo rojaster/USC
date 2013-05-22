@@ -42,6 +42,37 @@ else{
 
 <!-- BODY Container -->
 	<div class="hero-unit">
+		<!--Menu for adds-->
+		<label class="hr-labels">Управляющая панель:</label>
+		<ul class="menu-adds">
+			<li>
+				- <a href="#">добавить запись <?=__CLIENTS__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__AUTOS__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__SIM__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__DEVICES__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__SENSORS__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__MONTAGE__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__TSERVICE__?></a>
+			</li>
+			<li>
+				- <a href="#">добавить запись <?=__WORKERS__?></a>
+			</li>
+		</ul>
+
+		<!--Menu Selectors-->
+		<hr/>
 		<ul class="thumbnails">
 			<li>
 			<a href="/php/controller/builder.php?cat=clients" class="thumbnail">
