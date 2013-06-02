@@ -4,7 +4,7 @@ Database scheme {/*db_struct_diagramm.jpeg*/
 		tblDevices <1-1> tblAutos(dev_id) /*моделируем через ассоциативную таблицу*/
 		tblWorkers <1-1> auth /*воркеры, которые работают с системой*/
 		tblDevices <1-$> tblSensors /*через ассоциативную таблицу*/
-		tblServices()
+		tblServices <1-1-1>(tblAutos,tblWorkers) /*добавить бригады рабочих для выполнения*/
 }
 
 

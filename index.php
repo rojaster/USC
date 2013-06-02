@@ -41,6 +41,7 @@ else{
 	<h1>Главная Панель Управления</h1>
 
 <!-- BODY Container -->
+	<!--Control Panel Menu-->
 	<div class="hero-unit">
 		<!--Menu for adds-->
 		<label class="hr-labels">Управляющая панель:</label>
@@ -129,6 +130,36 @@ else{
 			</li>
 		</ul>
 	</div>
+	<!--Control Panel Menu-->
+
+	<div class="interactive-window">
+		<div class="iw-wrap">
+			<label class="hr-labels">TEST</label>
+			<table class="table iw-table">
+				<thead>
+					<tr><th>Test</th></tr>
+				</thead>
+
+				<tbody>
+					<tr><td>TEST</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="iw-wrap">
+			<table class="table iw-table">
+				<thead>
+					<tr><th>Test1</th></tr>
+				</thead>
+
+				<tbody>
+					<tr><td>TEST1</td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<!-- BODY Container -->
+
 
 <!--FOOTER-->
 <?=
