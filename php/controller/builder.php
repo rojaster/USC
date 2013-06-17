@@ -63,10 +63,11 @@ else{
 		</li>
 	</ul>
 
-	<table class="table table-bordered table-hover table-condensed">
-			<?php require_once("/../viewer/view.php"); ?>
-	</table>
-
+	<div class="table-wrap">
+		<table class="table table-bordered table-hover table-condensed">
+				<?php require_once("/../viewer/view.php"); ?>
+		</table>
+	</div>
 <!--FOOTER-->
 <?= include_once('/../viewer/footer.php');?>
 <!--FOOTER-->

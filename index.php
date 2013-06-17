@@ -89,7 +89,7 @@ else{
 
 			<li>
 			<a href="/php/controller/builder.php?cat=sims" class="thumbnail">
-			<?=__SIM__?>
+				<?=__SIM__?>
 			</a>
 			</li>
 
@@ -134,29 +134,50 @@ else{
 
 	<div class="interactive-window">
 		<div class="iw-wrap">
-			<label class="hr-labels">TEST</label>
+			<label class="hr-labels"><?=__TSERVICE__?></label>
 			<table class="table iw-table">
-				<thead>
-					<tr><th>Test</th></tr>
-				</thead>
 
-				<tbody>
-					<tr><td>TEST</td></tr>
-				</tbody>
+			</table>
+		</div>
+		
+		<div class="iw-wrap">
+			<label class="hr-labels"><?=__MONTAGE__?></label>
+			<table class="table iw-table">
+				
 			</table>
 		</div>
 
 		<div class="iw-wrap">
+			<label class="hr-labels">Общая статистика</label>
 			<table class="table iw-table">
 				<thead>
-					<tr><th>Test1</th></tr>
+					<tr>
+						<th>
+							<?=__DEVICES__?>
+						</th>
+						<th>
+							<?=__SENSORS__?>
+						</th>
+						<th>
+							<?=__SIM__?>
+						</th>
+						<th>
+							<?=__AUTOS__?>
+						</th>
+					</tr>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
 				</thead>
-
-				<tbody>
-					<tr><td>TEST1</td></tr>
-				</tbody>
 			</table>
 		</div>
+
+	<br/>
 	</div>
 <!-- BODY Container -->
 

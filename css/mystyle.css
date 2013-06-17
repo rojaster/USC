@@ -26,22 +26,26 @@ h1{
 }
 
 .interactive-window{
-	min-width       : 600px;
-	margin-right    : 500px;
-	margin-left     : 25px;
-	margin-top      : 15px;
+	min-width       : 600px             ;
+	margin-right    : 500px             ;
+	margin-left     : 25px              ;
+	margin-top      : 15px              ;
 	border          : 7px double #EEEEEE;
-	border-radius   : 0px;
-	background-color: #FAFAFA;
-	min-height      : 1000px;
-	overflow        : hidden;
+	border-radius   : 0px               ;
+	background-color: #FAFAFA           ;
+	min-height      : 590px             ;
+	overflow        : hidden            ;
 }
 
 .iw-wrap{
-	margin         : 7px 10px 0px;
-	padding        : 0px;
+	margin         : 10px 10px 20px;
+	padding        : 0px           ;
 }
 
+.table-wrap{
+	margin         : 10px 25px 20px;
+	padding        : 0px           ;
+}
 
 .hero-unit{
 	margin:			 0px;
@@ -132,23 +136,30 @@ h1{
 }
 
 .table{
-	margin:			 0px;
-	border: 		 5px solid #D4D4D4;
-	border-radius: 	 0px;
-	background-color:#FAFAFA;
-	padding:         0px;
-	overflow:        auto;
-	white-space:     nowrap;
+	margin          : 0px			   ;
+	border          : 5px solid #D4D4D4;
+	border-radius   : 0px              ;
+	background-color: #FAFAFA          ;
+	padding         : 0px              ;
+	overflow        : auto             ;
+	white-space     : nowrap           ;
+	empty-cells     : hide             ;
+}
+
+.table thead th, .table tbody td,
+.iw-table thead th, .iw-table tbody td{
+	text-align     : center           ;
 }
 
 .iw-table{
 	border         : 3px solid #D4D4D4;
-	border-collapse: collapse;
-	empty-cells    : hide;
-	table-layout   : fixed;
-	resize         : both;
+	border-collapse: collapse 		  ;
+	empty-cells    : hide             ;
+	table-layout   : fixed            ;
+	resize         : both             ;
+	text-align     : center           ;
+	vertical-align : top              ;
 }
-
 
 .pager{
 	margin-bottom: 5px;
@@ -165,7 +176,7 @@ h1{
 	background: linear-gradient(to bottom, #2e78a6 9%,#275985 50%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e78a6', endColorstr='#275985',GradientType=0 ); /* IE6-9 */
 	border: 0px;
-	border-bottom: 4px solid #204366;
+	border-bottom: 2px solid #204366;
 	border-radius: 0px;
 }
 
