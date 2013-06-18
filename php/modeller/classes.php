@@ -3,6 +3,7 @@
 	Viewer controller, defining view table for selected category
 */
 require_once("/../controller/connecter.php");
+
 	//interface method for abstract Viewer class and implements it to child class with values and methods
 interface IViewer{
 	function getFieldsCount($dbname,$tableName);// get count of fields for table
@@ -278,6 +279,11 @@ class CViewSimcards extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+	function hello(){
+		echo('builder is worked!');
+	}
+
 }
 
 

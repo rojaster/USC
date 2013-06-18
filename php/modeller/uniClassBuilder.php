@@ -9,27 +9,57 @@
 * 18/06/2013 1:33 for Surgut                               *
 * adminpc                                                  *
 ***********************************************************/
-include_once('/../globals.php');
+//*INCLUDES
+include_once('/../globals.php'			   );		//include global variables
+include_once('/classes.php'				   );		//include classes for objects
 
 
+//*DECLARATIONS
 class CUniClassBuilder{
+	//*PRIVATE 
 	private $objName;
-	private $obj    ;
+	private $dbLink;
+	private $rights ;
+	//*PUBLIC
+	public $obj     ; 
 
-	function __construct($name){
-		$this->objName = $name;
-		CUniClassBuilder::initObjOfClass();
+	function __construct($name, $lnk, $rights){ //get name of category, db link and access rights
+		$this->objName = $name            ;
+		$this->dbLink  = $lnk             ;
+		$this->rights  = $rights          ;
+		$this->initObjOfClass()    ;
 	}
 
 	function __destruct(){
-		$this->objName = '';
+		$this->objName = ''        ;
+		$this->rights  = ''        ;
+		$this->obj     = NULL      ;
+		@mysql_close($this->dbLink);
 	}
 
-	static public function initObjOfClass(){
+	private function initObjOfClass(){
 		switch($this->objName){
-			case
-
+			case __SIM__		:	$this->obj = new CViewSimcards($this->dbLink,$this->rights)  ; 
+									break 													     ;
+			case __DEVICES__    :	$this->obj = new CViewDevices($this->dbLink,$this->rights)   ;
+									break                                                        ;
+			case __SENSORS__    :	$this->obj = new CViewSensors($this->dbLink,$this->rights)   ;
+									break                                                        ;
+			case __AUTOS__      :	$this->obj = new CViewAutos($this->dbLink,$this->rights)     ;
+									break                                                        ;
+			case __MONTAGE__    :	$this->obj = new CViewServicesM($this->dbLink,$this->rights) ;
+									break                                                        ;
+			case __TSERVICE__   :	$this->obj = new CViewServicesTS($this->dbLink,$this->rights);
+									break                                                        ;
+			case __CLIENTS__    :	$this->obj = new CViewClients($this->dbLink,$this->rights)   ;
+									break                                                        ;
+			case __WORKERS__    :	$this->obj = new CViewWorkers($this->dbLink,$this->rights)   ;
+									break                                                        ;
+			default             :	$this->obj = NULL                                            ;
 		}
 	}
 
+	public function getRefToObj(){
+		return $this->obj;
+	}
 }

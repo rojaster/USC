@@ -3,7 +3,9 @@
 *Main Control Panel Page*
 ********************************************/
 require_once('/php/controller/connecter.php');
+require_once('/php/modeller/uniClassBuilder.php');
 require_once('/php/globals.php');
+
 
 @session_start(); // start session 
 
@@ -135,21 +137,21 @@ else{
 	<div class="interactive-window">
 		<div class="iw-wrap">
 			<label class="hr-labels"><?=__TSERVICE__?></label>
-			<table class="table iw-table">
+			<table class="table iw-table table-bordered table-hover">
 
 			</table>
 		</div>
 		
 		<div class="iw-wrap">
 			<label class="hr-labels"><?=__MONTAGE__?></label>
-			<table class="table iw-table">
-				
+			<table class="table iw-table table-bordered table-hover">
+
 			</table>
 		</div>
 
 		<div class="iw-wrap">
 			<label class="hr-labels">Общая статистика</label>
-			<table class="table iw-table">
+			<table class="table iw-table table-bordered table-hover">
 				<thead>
 					<tr>
 						<th>
@@ -167,10 +169,13 @@ else{
 					</tr>
 					<tbody>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>
+								<?php
+									$obj = new CUniClassBuilder(__SIM__,$dblnk,$rights);
+									$obj->getRefToObj()->hello();
+								?>
+							</td>
+							
 						</tr>
 					</tbody>
 				</thead>
