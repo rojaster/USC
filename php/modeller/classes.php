@@ -52,6 +52,8 @@ abstract class CViewer{
 			echo("Запрос на добавление данных произведен успешно!");
 		}
 	}
+
+	abstract function fullStat();     // for @override at inherit classes for all stat for object
 }
 
 
@@ -180,6 +182,11 @@ class CViewClients extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 
@@ -280,7 +287,7 @@ class CViewSimcards extends CViewer implements IViewer{
 		print($htmlFormContent);
 	}
 
-	function hello(){
+	function fullStat(){
 		echo('builder is worked!');
 	}
 
@@ -381,6 +388,11 @@ class CViewDevices extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 // for sensors table
@@ -479,6 +491,11 @@ class CViewSensors extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 //for Autos table
@@ -585,6 +602,11 @@ class CViewAutos extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 //for Workers and auth Info information
@@ -698,6 +720,11 @@ class CViewWorkers extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 //for service table
@@ -808,6 +835,11 @@ class CViewServicesM extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }
 
 
@@ -919,4 +951,9 @@ class CViewServicesTS extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+		function fullStat(){
+		echo('builder is worked!');
+	}
+
 }

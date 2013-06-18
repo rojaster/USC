@@ -172,7 +172,7 @@ else{
 							<td>
 								<?php
 									$obj = new CUniClassBuilder(__SIM__,$dblnk,$rights);
-									$obj->getRefToObj()->hello();
+									$obj->getRefToObj()->fullStat();
 								?>
 							</td>
 							
