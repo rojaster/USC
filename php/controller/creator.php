@@ -3,40 +3,14 @@
 * For Create a new record in the category
 * use viewer.php class 
 ************************************************/
+require_once('/../modeller/uniClassBuilder.php');
 require_once('/../modeller/classes.php');
 require_once('/../globals.php');
 @session_start();
 if(empty($_SESSION['sess_token'])) header("Location:".__EXIT__);
 $category = Connecter::secure($_GET['ctg']);
-	switch($category){
-		case 'sims'       : $cat_header = 'SIM'; 
-							$catInsData = new CViewSimcards($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'devices'    : $cat_header = 'ПРИБОРЫ';
-							$catInsData = new CViewDevices($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'sensors'    : $cat_header = 'ДАТЧИКИ';
-							$catInsData = new CViewSensors($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'autos'      : $cat_header = 'АВТО'; 
-							$catInsData = new CViewAutos($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'servicesm'  : $cat_header = 'МОНТАЖ'; 
-							$catInsData = new CViewServicesM($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'servicess'  : $cat_header = 'Заявки на тех. обслуживание'; 
-							$catInsData = new CViewServicesTS($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'workers'    : $cat_header = 'РАБОТНИКИ';
-							$catInsData = new CViewWorkers($db->get_link(),$_SESSION['rights']);
-							break;
-		case 'clients'    : $cat_header = 'КЛИЕНТЫ';
-							$catInsData = new CViewClients($db->get_link(),$_SESSION['rights']);
-							break;
-		//case 'statistics' : $cat_header = 'СТАТИСТИКА'; break;
-		default: header("Location:".__EXIT__);
-	}
-
+$catInsData = CUniClassBuilder::initObj($category,$dblnk,$_SESSION['rights']);
+if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 ?>
 <!DOCTYPE html>
 <html>
@@ -119,7 +93,7 @@ $category = Connecter::secure($_GET['ctg']);
 	</header>
 <!-- HEADER -->
 
-	<h1><?=$cat_header?></h1>
+	<h1><?=$category?></h1>
 	<ul class="pager">
 		<li>
 			<a href="/../../index.php">&larr; Главная Панель Управления</a>

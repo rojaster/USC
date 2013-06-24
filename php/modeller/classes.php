@@ -36,7 +36,7 @@ abstract class CViewer{
 						&nbsp;&nbsp;<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=deleteid&table={$tableName}\">Удалить</a>";
 			case 'SUI' : 
 			case 'SU'  : return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a>";
-			default: return "--------";
+			default    : return "--------";
 		}
 	}
 
@@ -53,7 +53,9 @@ abstract class CViewer{
 		}
 	}
 
-	abstract function fullStat();     // for @override at inherit classes for all stat for object
+	public function commonStat(){
+		echo("all is good");
+	}
 }
 
 
@@ -132,13 +134,13 @@ class CViewClients extends CViewer implements IViewer{
 
 	function insDataToTable(){
 		$firmName = mysql_real_escape_string($_POST['firm_name']);
-		$person = mysql_real_escape_string($_POST['person']);
-		$phone = mysql_real_escape_string($_POST['phone']);
-		$fax_num = mysql_real_escape_string($_POST['fax_num']);
-		$email = mysql_real_escape_string($_POST['email']);
-		$cl_type = mysql_real_escape_string($_POST['cl_type']);
-		$address = mysql_real_escape_string($_POST['address']);
-		$status = mysql_real_escape_string($_POST['status']);
+		$person   = mysql_real_escape_string($_POST['person']   );
+		$phone    = mysql_real_escape_string($_POST['phone']    );
+		$fax_num  = mysql_real_escape_string($_POST['fax_num']  );
+		$email    = mysql_real_escape_string($_POST['email']    );
+		$cl_type  = mysql_real_escape_string($_POST['cl_type']  );
+		$address  = mysql_real_escape_string($_POST['address']  );
+		$status   = mysql_real_escape_string($_POST['status']   );
 		$sql = "INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`) 
 				VALUES (NULL,'{$firmName}','{$person}','{$phone}','{$fax_num}','{$email}','{$cl_type}','{$address}',NULL,'{$status}') 
 				";
@@ -182,11 +184,6 @@ class CViewClients extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 
@@ -286,11 +283,6 @@ class CViewSimcards extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-	function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 
@@ -388,11 +380,6 @@ class CViewDevices extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 // for sensors table
@@ -491,11 +478,6 @@ class CViewSensors extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 //for Autos table
@@ -602,11 +584,6 @@ class CViewAutos extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 //for Workers and auth Info information
@@ -720,11 +697,6 @@ class CViewWorkers extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 //for service table
@@ -835,11 +807,6 @@ class CViewServicesM extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }
 
 
@@ -951,9 +918,4 @@ class CViewServicesTS extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-
-		function fullStat(){
-		echo('builder is worked!');
-	}
-
 }

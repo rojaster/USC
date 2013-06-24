@@ -169,13 +169,34 @@ else{
 					</tr>
 					<tbody>
 						<tr>
+							<!--DEVICES-->
 							<td>
 								<?php
-									$obj = new CUniClassBuilder(__SIM__,$dblnk,$rights);
-									$obj->getRefToObj()->fullStat();
+									$obj = CUniClassBuilder::initObj(__DEVICES__,$dblnk,$rights);
+									$obj->commonStat();
 								?>
 							</td>
-							
+							<!--SENSORS-->
+							<td>
+								<?php
+									$obj = CUniClassBuilder::initObj(__SENSORS__,$dblnk,$rights);
+									$obj->commonStat();
+								?>
+							</td>
+							<!--SIM-->
+							<td>
+								<?php
+									$obj = CUniClassBuilder::initObj(__SIM__,$dblnk,$rights);
+									$obj->commonStat();
+								?>
+							</td>
+							<!--AUTOS-->
+							<td>
+								<?php
+									$obj = CUniClassBuilder::initObj(__AUTOS__,$dblnk,$rights);
+									$obj->commonStat();
+								?>
+							</td>
 						</tr>
 					</tbody>
 				</thead>

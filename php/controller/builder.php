@@ -58,7 +58,7 @@ else{
 			<a href="<?=__MAIN__?>">&larr; Главная Панель Управления</a>
 			
 			<?php if($rights =='SUI' || $rights == 'SUID'){?> 
-						<a href="/php/controller/creator.php?ctg=<?=$_GET['cat']?>">Создать</a> 
+						<a href="/php/controller/creator.php?ctg=<?=$cat_header?>">Создать</a> 
 			<?php }?>
 		</li>
 	</ul>
