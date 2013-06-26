@@ -61,6 +61,16 @@ h1{
 	float:           right;
 }
 
+.hero-unit-ins{
+	margin:			 15px auto 10px;
+	width:			 430px;
+	min-width: 		 400px;
+	border: 		 7px double #EEEEEE;
+	border-radius: 	 0px;
+	background-color:#FAFAFA;
+	padding:         10px;
+}
+
 .menu-adds{
 	padding        : 0px;
 	margin         : 10px 15px 10px;

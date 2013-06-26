@@ -7,7 +7,7 @@
 *if data auth is good then user is           *
 *redirected to main page                     *
 ********************************************/
-require_once('/connecter.php');
+require_once('/../modeller/connecter.php');
 require_once('/../globals.php');
 @session_start();
 

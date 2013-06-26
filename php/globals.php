@@ -8,9 +8,11 @@
 */
 
 /*MAIN LINKS*/
-define('__EXIT__','/exit.php'    ,false);		// exit constant variable
-define('__AUTH__','/auth.php'    ,false);		// auth constant variable
-define('__MAIN__','/../index.php',false); // link on index file at root folder
+define('__EXIT__'     ,'/exit.php'                    ,false);		// exit constant variable
+define('__AUTH__'     ,'/auth.php'                    ,false);		// auth constant variable
+define('__MAIN__'     ,'/../index.php'                ,false);		// link on index file at root folder
+
+
 
 
 /*DATABASE PARAMETERS*/

@@ -9,5 +9,5 @@ object->viewCatData(database name)
 ***************************************************************/
 
 $object = CUniClassBuilder::initObj($cat_header,$dblnk,$rights);
-if(is_null($object)) header("Location:".__EXIT__); // go away, kiddi
+if(is_null($object)) header("Location: /php".__EXIT__); // go away, kiddi
 $object->viewCatData($db->get_dbname());

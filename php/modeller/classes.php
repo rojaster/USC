@@ -2,7 +2,7 @@
 /*
 	Viewer controller, defining view table for selected category
 */
-require_once("/../controller/connecter.php");
+require_once("/../modeller/connecter.php");
 
 	//interface method for abstract Viewer class and implements it to child class with values and methods
 interface IViewer{

@@ -10,8 +10,9 @@ require_once('/../globals.php');
 if(empty($_SESSION['sess_token'])) header("Location:".__EXIT__);
 $category = Connecter::secure($_GET['ctg']);
 $catInsData = CUniClassBuilder::initObj($category,$dblnk,$_SESSION['rights']);
-if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
+if(is_null($catInsData)) header("Location: /php/".__EXIT__); // go away, kiddi
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,11 +20,11 @@ if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 	<title>ООО "ЮграСпецКонтроль"</title>
 
 	<!--Bootstrap include -->
-	<link href="../css/bootstrap.css" rel="stylesheet" />
-	<link href="../css/bootstrap-responsive.css" rel="stylesheet"/>
-	<script src="../js/jquery.js"></script>
-	<script src="../js/bootstrap.js"></script>
-	<link href="../css/mystyle.css" rel="stylesheet" />
+	<link href="/../../css/bootstrap.css" rel="stylesheet" />
+	<link href="/../../css/bootstrap-responsive.css" rel="stylesheet"/>
+	<script src="/../../js/jquery.js"></script>
+	<script src="/../../js/bootstrap.js"></script>
+	<link href="/../../css/mystyle.css" rel="stylesheet" />
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$('#frm').submit(function(e){
@@ -54,7 +55,7 @@ if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 <body>
 
 <!-- HEADER -->
-	<header class="navbar navbar-inverse navbar-fixed-top">
+		<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="brand" href="#">ООО "ЮграСпецКонтроль"</a> <!--Вставить ссылку на сайт компании -->
@@ -80,11 +81,8 @@ if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 								</li>
 							</ul>
 						</li>
-
-
-
 						<li>
-							<a href="<?=__EXIT__?>">Выход</a>
+							<a href="/php/exit.php">Выход</a>
 						</li>
 					</ul>
 				</div><!--/.nav-collapse -->
@@ -97,11 +95,11 @@ if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 	<ul class="pager">
 		<li>
 			<a href="/../../index.php">&larr; Главная Панель Управления</a>
-			<a href="/builder.php?cat=<?=$category?>">&larr;Вернуться в таблицу</a>
+			<a href="builder.php?cat=<?=$category?>">&larr;Вернуться в таблицу</a>
 		</li>
 	</ul>
 
-	<div class="hero-unit">
+	<div class="hero-unit-ins">
 	<form id="frm" action="/inserter.php?ctg=<?=$category?>" method="post">
 		<?php
 			$catInsData->render();
@@ -112,11 +110,7 @@ if(is_null($catInsData)) header("Location:".__EXIT__); // go away, kiddi
 	</div>
 
 <!--FOOTER-->
-	<hr/>
-	<footer>
-		<p><small>Created for ООО"ЮграСпецКонтроль" 2013(с)</small></p>
-	</footer>
-
+	<?= require_once('/../viewer/footer.php'); ?>
 <!--FOOTER-->
 </body>
 </html>

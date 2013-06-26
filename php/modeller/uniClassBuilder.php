@@ -5,13 +5,13 @@
 * for it query is put a parameter:                         *
 * after execute  builder to return                         *
 * the object of class of need for this parameter           *
-* Singleton pattern                                        *
+* Singleton pattern                                    *
 * 18/06/2013 1:33 for Surgut                               *
 * adminpc                                                  *
 ***********************************************************/
 //*INCLUDES
 include_once('/../globals.php');		//include global variables
-include_once('/classes.php'   );		//include classes for objects
+include_once('classes.php'    );		//include classes for objects
 
 
 //*DECLARATIONS

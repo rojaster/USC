@@ -2,7 +2,7 @@
 /********************************************
 *Main Control Panel Page*
 ********************************************/
-require_once('/php/controller/connecter.php');
+require_once('/php/modeller/connecter.php');
 require_once('/php/modeller/uniClassBuilder.php');
 require_once('/php/globals.php');
 
@@ -49,28 +49,28 @@ else{
 		<label class="hr-labels">Управляющая панель:</label>
 		<ul class="menu-adds">
 			<li>
-				- <a href="#">добавить запись <?=__CLIENTS__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__CLIENTS__?>">добавить запись <?=__CLIENTS__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__AUTOS__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__AUTOS__?>">добавить запись <?=__AUTOS__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__SIM__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__SIM__?>">добавить запись <?=__SIM__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__DEVICES__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__DEVICES__?>">добавить запись <?=__DEVICES__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__SENSORS__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__SENSORS__?>">добавить запись <?=__SENSORS__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__MONTAGE__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__MONTAGE__?>">добавить запись <?=__MONTAGE__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__TSERVICE__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__TSERVICE__?>">добавить запись <?=__TSERVICE__?></a>
 			</li>
 			<li>
-				- <a href="#">добавить запись <?=__WORKERS__?></a>
+				- <a href="/php/controller/creator.php?ctg=<?=__WORKERS__?>">добавить запись <?=__WORKERS__?></a>
 			</li>
 		</ul>
 
@@ -78,55 +78,55 @@ else{
 		<hr/>
 		<ul class="thumbnails">
 			<li>
-			<a href="/php/controller/builder.php?cat=clients" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__CLIENTS__?>" class="thumbnail">
 				<?=__CLIENTS__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=autos" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__AUTOS__?>" class="thumbnail">
 				<?=__AUTOS__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=sims" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__SIM__?>" class="thumbnail">
 				<?=__SIM__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=devices" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__DEVICES__?>" class="thumbnail">
 				<?=__DEVICES__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=sensors" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__SENSORS__?>" class="thumbnail">
 				<?=__SENSORS__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=servicesm" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__MONTAGE__?>" class="thumbnail">
 				<?=__MONTAGE__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=servicess" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__TSERVICE__?>" class="thumbnail">
 				<?=__TSERVICE__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=workers" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__WORKERS__?>" class="thumbnail">
 				<?=__WORKERS__?>
 			</a>
 			</li>
 
 			<li>
-			<a href="/php/controller/builder.php?cat=statistics" class="thumbnail">
+			<a href="/php/controller/builder.php?cat=<?=__STATISTICS__?>" class="thumbnail">
 				<?=__STATISTICS__?>
 			</a>
 			</li>
