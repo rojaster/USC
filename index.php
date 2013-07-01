@@ -136,16 +136,22 @@ else{
 
 	<div class="interactive-window">
 		<div class="iw-wrap">
+			<!--Таблица по сервису технического обслуживания-->
 			<label class="hr-labels"><?=__TSERVICE__?></label>
 			<table class="table iw-table table-bordered table-hover">
-
+				<?php
+					$obj = new CUniClassBuilder(__TSERVICE__,$dblnk,$rigths);		// not a good way to create object from two points
+				?>
 			</table>
 		</div>
 		
 		<div class="iw-wrap">
+			<!--Таблица по монтажу устройств на автомобили-->
 			<label class="hr-labels"><?=__MONTAGE__?></label>
 			<table class="table iw-table table-bordered table-hover">
-
+				<?php
+					$obj = new CUniClassBuilder(__MONTAGE__,$dblnk,$rigths);		// not a good way to create object from two points
+				?>
 			</table>
 		</div>
 

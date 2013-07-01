@@ -6,19 +6,20 @@ require_once("/../modeller/connecter.php");
 
 	//interface method for abstract Viewer class and implements it to child class with values and methods
 interface IViewer{
-	function getFieldsCount($dbname,$tableName);// get count of fields for table
-	function getFieldsName();					// get a names of fields of table
-	function getTableRecords($tableName);		// get a record of fields for table
+	function getFullObjStat()			;	// get full statistic of instance of object
+	function getFieldsCount()			;	// get count of fields for table
+	function getFieldsName()			;	// get a names of fields of table
+	function getTableRecords($tableName);	// get a record of fields for table
 }
 
-//abstract class with generic method for all classes
+//abstract class with generic methods for all classes
 abstract class CViewer{
 	protected $dblink;   // link to connect to db
 	protected $rights;   // user access rights for work with data 
 	protected $message;  // error message
 	protected $tableName; //Table Name for category
 	public function viewCatData($dbname){
-		$countTHead = $this->getFieldsCount($dbname,$this->tableName);
+		$countTHead = $this->getFieldsCount();
 		$tHeadName = $this->getFieldsName();
 		$tableHead = "\t<thead><tr>\n";
 		for($i=0; $i<$countTHead; ++$i){
@@ -53,13 +54,20 @@ abstract class CViewer{
 		}
 	}
 
-	public function commonStat(){
-		echo("all is good");
+	public function commonStat(){		//may be need more parameters at future
+		return $this->getFullObjStat();	//fullObjStat() - a method for full statistic about object instance
 	}
 }
 
 
-// for clients table
+
+
+
+/*********************************************************************
+*		Definition and Declaration classes from abstract class 		 *
+**********************************************************************/
+
+/*-------------------Start of Client Class---------------------------*/
 class CViewClients extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblclients';
@@ -68,11 +76,8 @@ class CViewClients extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	public function getFieldsCount($dbname,$tableName){
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount;
+	public function getFieldsCount(){
+		return sizeof($this->getFieldsName);
 	}
 
 	public function getFieldsName(){
@@ -184,10 +189,18 @@ class CViewClients extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
 }
+/*-------------------End of Client Class---------------------------*/
 
 
-// for simcards table
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of Simcards Class---------------------------*/
 class CViewSimcards extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblsims';
@@ -196,11 +209,8 @@ class CViewSimcards extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+1; // because i return sim_id 
+	function getFieldsCount(){
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){
@@ -283,10 +293,18 @@ class CViewSimcards extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
 }
+/*-------------------End of Simcards Class---------------------------*/
 
 
-//for devices table
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of Devices Class--------------------------*/
 class CViewDevices extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tbldevices';
@@ -295,11 +313,8 @@ class CViewDevices extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+1; // +1 for sim card number from tblsims 
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -380,9 +395,18 @@ class CViewDevices extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-}
 
-// for sensors table
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
+}
+/*-------------------End of Devices Class--------------------------*/
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of Sensors Class------------------------*/
 class CViewSensors extends CViewer implements IViewer{
 
 	function __construct($lnk,$rights){
@@ -392,11 +416,8 @@ class CViewSensors extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+1;
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 
@@ -478,9 +499,18 @@ class CViewSensors extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-}
 
-//for Autos table
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
+}
+/*-------------------End of Sensors Class------------------------*/
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of Autos Class------------------------*/
 class CViewAutos extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblautos';
@@ -489,11 +519,8 @@ class CViewAutos extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+1;
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -584,9 +611,18 @@ class CViewAutos extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-}
 
-//for Workers and auth Info information
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
+}
+/*-------------------End of Autos Class------------------------*/
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of Workers Class------------------------*/
 class CViewWorkers extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblworkers';
@@ -595,11 +631,8 @@ class CViewWorkers extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+2;
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -697,22 +730,28 @@ class CViewWorkers extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
-}
 
-//for service table
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
+}
+/*-------------------End of Workers Class------------------------*/
+
+
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of ServicesM Class------------------------*/
 class CViewServicesM extends CViewer implements IViewer{
 	function __construct($lnk,$rights){
 		$this->tableName = 'tblservices';
-		$this->message = 'Error in CViewServices class, check methods';
-		$this->dblink = $lnk;
-		$this->rights = $rights;
+		$this->message   = 'Error in CViewServices class, check methods';
+		$this->dblink    = $lnk;
+		$this->rights    = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+2; // if was deleted one field
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -807,9 +846,18 @@ class CViewServicesM extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
 }
+/*-------------------End of ServicesM Class------------------------*/
 
 
+//------------------------------------------------------------------------------------------------------
+
+
+/*-------------------Start of ServicesTS Class------------------------*/
 class CViewServicesTS extends CViewer implements IViewer{
 
 	function __construct($lnk,$rights){
@@ -819,11 +867,8 @@ class CViewServicesTS extends CViewer implements IViewer{
 		$this->rights = $rights;
 	}
 
-	function getFieldsCount($dbname,$tableName){// get count of fields for table
-		$qr = mysql_list_fields($dbname, $tableName) or $this->errorer("getFieldsCount ".$this->tableName." error");
-		$fieldsCount = mysql_num_fields($qr);
-		@mysql_free_result($qr);
-		return $fieldsCount+2; // if was deleted one field
+	function getFieldsCount(){// get count of fields for table
+		return sizeof($this->getFieldsName);
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -918,4 +963,12 @@ class CViewServicesTS extends CViewer implements IViewer{
 							";
 		print($htmlFormContent);
 	}
+
+	function getFullObjStat(){
+		echo('getFullObjStat()');
+	}
 }
+/*-------------------End of ServicesTS Class------------------------*/
+
+
+//------------------------------------------------------------------------------------------------------
