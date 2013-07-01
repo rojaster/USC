@@ -2,16 +2,16 @@
 /********************************************
 *Main Control Panel Page*
 ********************************************/
-require_once('/php/modeller/connecter.php');
+require_once('/php/modeller/connecter.php'      );
 require_once('/php/modeller/uniClassBuilder.php');
-require_once('/php/globals.php');
+require_once('/php/globals.php'                 );
 
 
 @session_start(); // start session 
 
 if(empty($_SESSION['sess_token'])) header("Location: /php/exit.php"); // if session token is empty, redirect user to auth
 
-$login = Connecter::secure($_SESSION['name']);
+$login  = Connecter::secure($_SESSION['name']);
 $rights = Connecter::secure($_SESSION['rights']);
 
 $sql = "SELECT * 
@@ -135,26 +135,39 @@ else{
 	<!--Control Panel Menu-->
 
 	<div class="interactive-window">
+		<!--Таблица по сервису технического обслуживания-->
 		<div class="iw-wrap">
-			<!--Таблица по сервису технического обслуживания-->
 			<label class="hr-labels"><?=__TSERVICE__?></label>
 			<table class="table iw-table table-bordered table-hover">
 				<?php
-					$obj = new CUniClassBuilder(__TSERVICE__,$dblnk,$rigths);		// not a good way to create object from two points
-				?>
-			</table>
-		</div>
-		
-		<div class="iw-wrap">
-			<!--Таблица по монтажу устройств на автомобили-->
-			<label class="hr-labels"><?=__MONTAGE__?></label>
-			<table class="table iw-table table-bordered table-hover">
-				<?php
-					$obj = new CUniClassBuilder(__MONTAGE__,$dblnk,$rigths);		// not a good way to create object from two points
+				$obj = CUniClassBuilder::initObj(__TSERVICE__,$dblnk,$rights);
+					if(is_null($obj) || !method_exists($obj, "getStatForMP")){
+						echo('Object is empty');
+					}
+					else{
+						$obj->getStatForMP();
+					}
 				?>
 			</table>
 		</div>
 
+		<!--Таблица по монтажу устройств на автомобили-->
+		<div class="iw-wrap">
+			<label class="hr-labels"><?=__MONTAGE__?></label>
+			<table class="table iw-table table-bordered table-hover">
+				<?php
+					$obj = CUniClassBuilder::initObj(__MONTAGE__,$dblnk,$rights);
+					if(is_null($obj) || !method_exists($obj, "getStatForMP")){
+						echo('Object is empty');
+					}
+					else{
+						$obj->getStatForMP();
+					}
+				?>
+			</table>
+		</div>
+
+		<!--Таблица по сводной всех основных объектов-->
 		<div class="iw-wrap">
 			<label class="hr-labels">Общая статистика</label>
 			<table class="table iw-table table-bordered table-hover">
@@ -179,28 +192,48 @@ else{
 							<td>
 								<?php
 									$obj = CUniClassBuilder::initObj(__DEVICES__,$dblnk,$rights);
-									$obj->commonStat();
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
 								?>
 							</td>
 							<!--SENSORS-->
 							<td>
 								<?php
 									$obj = CUniClassBuilder::initObj(__SENSORS__,$dblnk,$rights);
-									$obj->commonStat();
+										if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
 								?>
 							</td>
 							<!--SIM-->
 							<td>
 								<?php
 									$obj = CUniClassBuilder::initObj(__SIM__,$dblnk,$rights);
-									$obj->commonStat();
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
 								?>
 							</td>
 							<!--AUTOS-->
 							<td>
 								<?php
 									$obj = CUniClassBuilder::initObj(__AUTOS__,$dblnk,$rights);
-									$obj->commonStat();
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
 								?>
 							</td>
 						</tr>
@@ -222,4 +255,4 @@ else{
 </html>
 <?php
 } // end else (when session token is valid , show up main panel )
-?>
+// sorry for my code of monkey somewhere

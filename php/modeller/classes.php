@@ -28,7 +28,7 @@ abstract class CViewer{
 		$tableHead .= "</tr></thead>\n";
 		echo($tableHead);
 		$tableBody=$this->getTableRecords($this->tableName);
-		echo($tableBody);
+		echo ($tableBody);
 	}
 
 	public function getEditMenu($recID,$rights,$tableName){
@@ -77,7 +77,7 @@ class CViewClients extends CViewer implements IViewer{
 	}
 
 	public function getFieldsCount(){
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	public function getFieldsName(){
@@ -210,7 +210,7 @@ class CViewSimcards extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){
@@ -314,7 +314,7 @@ class CViewDevices extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -417,7 +417,7 @@ class CViewSensors extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 
@@ -520,7 +520,7 @@ class CViewAutos extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -632,7 +632,7 @@ class CViewWorkers extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -751,7 +751,7 @@ class CViewServicesM extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -847,8 +847,14 @@ class CViewServicesM extends CViewer implements IViewer{
 		print($htmlFormContent);
 	}
 
+	// метод останется, так как для каждой страницы с объектом, в шапке, потребуется выводить полную статистику
+	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
 	function getFullObjStat(){
 		echo('getFullObjStat()');
+	}
+
+	function getStatForMP(){
+		echo('getStatForMPM');
 	}
 }
 /*-------------------End of ServicesM Class------------------------*/
@@ -868,7 +874,7 @@ class CViewServicesTS extends CViewer implements IViewer{
 	}
 
 	function getFieldsCount(){// get count of fields for table
-		return sizeof($this->getFieldsName);
+		return sizeof($this->getFieldsName());
 	}
 
 	function getFieldsName(){					// get a names of fields of table
@@ -964,8 +970,14 @@ class CViewServicesTS extends CViewer implements IViewer{
 		print($htmlFormContent);
 	}
 
+	// метод останется, так как для каждой страницы с объектом, в шапке, потребуется выводить полную статистику
+	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
 	function getFullObjStat(){
 		echo('getFullObjStat()');
+	}
+
+	function getStatForMP(){
+		echo('getStatForMPTS');
 	}
 }
 /*-------------------End of ServicesTS Class------------------------*/
