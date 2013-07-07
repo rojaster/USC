@@ -189,7 +189,7 @@ else{
 					<tbody>
 						<tr>
 							<!--DEVICES-->
-							<td>
+							<td class="txt-align-left">
 								<?php
 									$obj = CUniClassBuilder::initObj(__DEVICES__,$dblnk,$rights);
 									if(is_null($obj)){

@@ -161,6 +161,10 @@ h1{
 	text-align     : center           ;
 }
 
+.txt-align-left{
+	text-align     : left             ;
+}
+
 .iw-table{
 	border         : 3px solid #D4D4D4;
 	border-collapse: collapse 		  ;

@@ -446,7 +446,37 @@ class CViewDevices extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM tbldevices
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName."is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = 'записей нет';
+		}
+		else{
+			$k = 0; // free
+			$l = 0; // busy
+			$j = 0; // reserve
+			$h = 0; // defects
+			while($value = mysql_fetch_assoc($res,MYSQL_ASSOC))
+			{
+				switch($value['status'])
+				{
+					case 'free'   : ++$k; break;
+					case 'busy'   : ++$l; break;
+					case 'reserve': ++$j; break;
+					case 'defects': ++$h; break;
+					default       :	$stat = 'необнаруженный идентификатор';
+				}
+			}
+
+			$stat =  "\tСвободных    : ".$k."<br/>\n";
+			$stat .= "\tУстановленных: ".$l."<br/>\n" ;
+			$stat .= "\tРезерв       : ".$j."<br/>\n" ;
+			$stat .= "\tДефект       : ".$h."<br/>\n" ;
+			$stat .= "\tВсего        : ".($k+$l+$j+$h)."\n";
+		}
+		print($stat);
 	}
 }
 /*-------------------End of Devices Class--------------------------*/
