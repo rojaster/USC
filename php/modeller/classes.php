@@ -66,7 +66,7 @@ abstract class CViewer{
 				INNER JOIN tblworkers ON s.tblWorkers\$worker_id = tblworkers.worker_id
 				WHERE s.serv_type = '{$param}'
 				AND (s.status = 'not done' OR s.status = 'performed')
-				LIMIT 0 , 10
+				LIMIT 0 , 5	
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$this->tableName. "is wrong!!");
 		
@@ -344,7 +344,33 @@ class CViewSimcards extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM {$this->tableName}
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+		}
+		else{
+			$h = $j = $k = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['status']) {
+					case 'free'   : ++$h; break;
+					case 'busy': ++$j; break;
+					case 'blocked': ++$k; break;
+					default        : 
+									 $stat = "записи нет";
+									 break;
+				}
+			}
+			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
+			$stat .=  "\t<tr><td style=\"text-align:right\">Используется  : </td><td>".$h."</td></tr>\n";
+			$stat .= "\t<tr><td style=\"text-align:right\">Не используется: </td><td>".$j."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Блокировано    : </td><td>".$k."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Всего          : </td><td>".($k+$j+$h)."</td></tr>\n";
+			$stat .= "</tbody></table>";
+		}
+		print($stat);
 	}
 }
 /*-------------------End of Simcards Class---------------------------*/
@@ -447,7 +473,7 @@ class CViewDevices extends CViewer implements IViewer{
 
 	function getFullObjStat(){
 		$sql = "SELECT `status`
-				FROM tbldevices
+				FROM {$this->tableName}
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName."is wrong");
 		if(mysql_num_rows($res)==0){
@@ -469,12 +495,17 @@ class CViewDevices extends CViewer implements IViewer{
 					default       :	$stat = 'необнаруженный идентификатор';
 				}
 			}
+			/*по непонятной причине не хотят работать классы относительно ячеек 
+			* приходится задавать явным образом стиль - тупизм какой ТО!!
+			*/
+			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
+			$stat .=  "\t<tr><td style=\"text-align:right\">Свободных    : </td><td>".$k."</td></tr>\n";
+			$stat .= "\t<tr><td style=\"text-align:right\">Установленных : </td><td>".$l."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Резерв        : </td><td>".$j."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Дефект        : </td><td>".$h."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Всего         : </td><td>".($k+$l+$j+$h)."</td></tr>\n";
+			$stat .= "</tbody></table>";
 
-			$stat =  "\tСвободных    : ".$k."<br/>\n";
-			$stat .= "\tУстановленных: ".$l."<br/>\n" ;
-			$stat .= "\tРезерв       : ".$j."<br/>\n" ;
-			$stat .= "\tДефект       : ".$h."<br/>\n" ;
-			$stat .= "\tВсего        : ".($k+$l+$j+$h)."\n";
 		}
 		print($stat);
 	}
@@ -580,7 +611,33 @@ class CViewSensors extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `sens_status`
+				FROM {$this->tableName}
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+		}
+		else{
+			$h = $j = $k = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['sens_status']) {
+					case 'using'   : ++$h; break;
+					case 'not_used': ++$j; break;
+					case 'defected': ++$k; break;
+					default        : 
+									 $stat = "записи нет";
+									 break;
+				}
+			}
+			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
+			$stat .=  "\t<tr><td style=\"text-align:right\">Используется  : </td><td>".$h."</td></tr>\n";
+			$stat .= "\t<tr><td style=\"text-align:right\">Не используется: </td><td>".$j."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Дефект        : </td><td>".$k."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Всего         : </td><td>".($k+$j+$h)."</td></tr>\n";
+			$stat .= "</tbody></table>";
+		}
+		print($stat);
 	}
 }
 /*-------------------End of Sensors Class------------------------*/
@@ -692,7 +749,31 @@ class CViewAutos extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM {$this->tableName}
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+		}
+		else{
+			$h = $j = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['status']) {
+					case 'active'   : ++$h; break;
+					case 'not_active': ++$j; break;
+					default        : 
+									 $stat = "записи нет";
+									 break;
+				}
+			}
+			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
+			$stat .=  "\t<tr><td style=\"text-align:right\">Активно   : </td><td>".$h."</td></tr>\n";
+			$stat .= "\t<tr><td style=\"text-align:right\">Не активных: </td><td>".$j."</td></tr>\n" ;
+			$stat .= "\t<tr><td style=\"text-align:right\">Всего      : </td><td>".($j+$h)."</td></tr>\n";
+			$stat .= "</tbody></table>";
+		}
+		print($stat);
 	}
 }
 /*-------------------End of Autos Class------------------------*/

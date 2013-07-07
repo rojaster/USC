@@ -170,7 +170,7 @@ else{
 		<!--Таблица по сводной всех основных объектов-->
 		<div class="iw-wrap">
 			<label class="hr-labels">Общая статистика</label>
-			<table class="table iw-table table-bordered table-hover">
+			<table>
 				<thead>
 					<tr>
 						<th>
@@ -189,7 +189,7 @@ else{
 					<tbody>
 						<tr>
 							<!--DEVICES-->
-							<td class="txt-align-left">
+							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__DEVICES__,$dblnk,$rights);
 									if(is_null($obj)){
@@ -201,7 +201,7 @@ else{
 								?>
 							</td>
 							<!--SENSORS-->
-							<td>
+							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__SENSORS__,$dblnk,$rights);
 										if(is_null($obj)){
@@ -213,7 +213,7 @@ else{
 								?>
 							</td>
 							<!--SIM-->
-							<td>
+							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__SIM__,$dblnk,$rights);
 									if(is_null($obj)){
@@ -225,7 +225,7 @@ else{
 								?>
 							</td>
 							<!--AUTOS-->
-							<td>
+							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__AUTOS__,$dblnk,$rights);
 									if(is_null($obj)){

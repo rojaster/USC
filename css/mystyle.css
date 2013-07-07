@@ -156,14 +156,28 @@ h1{
 	empty-cells     : hide             ;
 }
 
+.table-layout-auto{
+	table-layout: auto;
+}
+
 .table thead th, .table tbody td,
 .iw-table thead th, .iw-table tbody td{
 	text-align     : center           ;
 }
 
+/*text positions*/
 .txt-align-left{
 	text-align     : left             ;
 }
+
+.txt-align-right{
+	text-align     : right            ;
+}
+
+.txt-align-center{
+	text-align     : center           ;
+}
+
 
 .iw-table{
 	border         : 3px solid #D4D4D4;
@@ -173,6 +187,12 @@ h1{
 	resize         : both             ;
 	text-align     : center           ;
 	vertical-align : top              ;
+}
+
+.tb-comm-stat{
+	vertical-align : top ;
+	padding-right  : 8px ;
+	padding-left   : 8px ;
 }
 
 /*для фиксированного столбца под номер строки в 15 пикселов*/
