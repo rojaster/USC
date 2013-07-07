@@ -171,6 +171,17 @@ h1{
 	vertical-align : top              ;
 }
 
+/*для фиксированного столбца под номер строки в 15 пикселов*/
+.fxw{
+	width: 30px;
+}
+
+/* для переноса*/
+.break_str{
+	white-space    : pre-wrap         ;
+	word-wrap      : break-word       ;
+}
+
 .pager{
 	margin-bottom: 5px;
 	margin-top:    0px;

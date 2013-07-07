@@ -57,6 +57,55 @@ abstract class CViewer{
 	public function commonStat(){		//may be need more parameters at future
 		return $this->getFullObjStat();	//fullObjStat() - a method for full statistic about object instance
 	}
+
+	function getStatForMP($param){
+		// header of table
+		$sql = "SELECT start_date_time AS sdt, finish_date_time AS fdt, description, tblautos.gos_num AS gn,tblworkers.fio AS fio,tblworkers.phone AS phone 
+				FROM tblservices AS s
+				INNER JOIN tblautos ON s.tblAutos\$auto_id = tblautos.auto_id
+				INNER JOIN tblworkers ON s.tblWorkers\$worker_id = tblworkers.worker_id
+				WHERE s.serv_type = '{$param}'
+				AND (s.status = 'not done' OR s.status = 'performed')
+				LIMIT 0 , 10
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$this->tableName. "is wrong!!");
+		
+		$head = "\t<thead>\n";
+		$head .= "\t\t<tr>\n";
+		$head .= "\t\t\t<th class=\"fxw\">№</th>\n";
+		$head .= "\t\t\t<th>Дата начала</th>\n";
+		$head .= "\t\t\t<th>Конечная дата</th>\n";
+		$head .= "\t\t\t<th>Номер машины</th>\n";
+		$head .= "\t\t\t<th>Рабочий</th>\n";
+		$head .= "\t\t\t<th>Телефон работника</th>\n";
+		$head .= "\t\t\t<th>Описание работы</th>\n";
+		$head .= "\t\t</tr>\n";
+		$head .= "\t</thead>\n";
+		print($head);
+
+		if(mysql_num_rows($res) == 0){
+			$err = "\t<tbody>\n \t\t<tr>\t\t\t<td colspan=8> Нет задач для монатажа, чей статус - not done или performed</td>\n</tr>\n \t</tbody>\n";
+			print($err);
+		}
+		else{
+			//body of table
+			$body = "\t<tbody>\n";
+			$i = 0;	// string number
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				$body .= "\t\t<tr>\n";
+				$body .= "\t\t\t<td>".++$i."</td>\n";
+				$body .= "\t\t\t<td>".$value['sdt']."</td>\n";
+				$body .= "\t\t\t<td>".$value['fdt']."</td>\n";
+				$body .= "\t\t\t<td>".$value['gn']."</td>\n";
+				$body .= "\t\t\t<td>".$value['fio']."</td>\n";
+				$body .= "\t\t\t<td>".$value['phone']."</td>\n";
+				$body .= "\t\t\t<td>".$value['description']."</td>\n";
+				$body .= "\t\t</tr>\n";
+			}
+			$body .= "\t</tbody>\n";
+			print($body);
+		}
+	}
 }
 
 
@@ -849,12 +898,9 @@ class CViewServicesM extends CViewer implements IViewer{
 
 	// метод останется, так как для каждой страницы с объектом, в шапке, потребуется выводить полную статистику
 	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
+	// хотя это такая шляпа
 	function getFullObjStat(){
 		echo('getFullObjStat()');
-	}
-
-	function getStatForMP(){
-		echo('getStatForMPM');
 	}
 }
 /*-------------------End of ServicesM Class------------------------*/
@@ -974,10 +1020,6 @@ class CViewServicesTS extends CViewer implements IViewer{
 	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
 	function getFullObjStat(){
 		echo('getFullObjStat()');
-	}
-
-	function getStatForMP(){
-		echo('getStatForMPTS');
 	}
 }
 /*-------------------End of ServicesTS Class------------------------*/
