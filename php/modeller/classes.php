@@ -55,7 +55,13 @@ abstract class CViewer{
 	}
 
 	public function commonStat(){		//may be need more parameters at future
-		return $this->getFullObjStat();	//fullObjStat() - a method for full statistic about object instance
+		$arr = $this->getFullObjStat();	//fullObjStat() - a method for full statistic about object instance
+		$html = "<table class=\"iw-table table-condensed\"><tbody>";
+		foreach ($arr as $key => $value) {
+			$html .= "\t<tr><td style=\"text-align:right\">{$key}  : </td><td>{$value}</td></tr>\n";
+		}
+		$html .= "</tbody></table>";
+		print($html);
 	}
 
 	function getStatForMP($param){
@@ -362,7 +368,7 @@ class CViewSimcards extends CViewer implements IViewer{
 					default       : break;
 				}
 			}
-			$stat = array('Свободно'=>$h , 'Используется'=>$j , 'Блокировано'=>$k);
+			$stat = array('Свободно'=>$h , 'Используется'=>$j , 'Блокировано'=>$k, 'Всего'=>$h+$j+$k);
 			return $stat;
 		}
 	}
@@ -472,6 +478,7 @@ class CViewDevices extends CViewer implements IViewer{
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName."is wrong");
 		if(mysql_num_rows($res)==0){
 			$stat = 'записей нет';
+			return $stat;
 		}
 		else{
 			$k = 0; // free
@@ -486,22 +493,12 @@ class CViewDevices extends CViewer implements IViewer{
 					case 'busy'   : ++$l; break;
 					case 'reserve': ++$j; break;
 					case 'defects': ++$h; break;
-					default       :	$stat = 'необнаруженный идентификатор';
+					default       :	break;
 				}
 			}
-			/*по непонятной причине не хотят работать классы относительно ячеек 
-			* приходится задавать явным образом стиль - тупизм какой ТО!!
-			*/
-			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
-			$stat .=  "\t<tr><td style=\"text-align:right\">Свободных    : </td><td>".$k."</td></tr>\n";
-			$stat .= "\t<tr><td style=\"text-align:right\">Установленных : </td><td>".$l."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Резерв        : </td><td>".$j."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Дефект        : </td><td>".$h."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Всего         : </td><td>".($k+$l+$j+$h)."</td></tr>\n";
-			$stat .= "</tbody></table>";
-
+			$stat = array('Свободно'=>$k,'Используется'=>$l,'Резерв'=>$j,'Дефект'=>$h, 'Всего'=>$k+$l+$j+$h);
+			return $stat;
 		}
-		print($stat);
 	}
 }
 /*-------------------End of Devices Class--------------------------*/
@@ -611,6 +608,7 @@ class CViewSensors extends CViewer implements IViewer{
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
 			$stat = "записей нет";
+			return $stat;
 		}
 		else{
 			$h = $j = $k = 0;
@@ -620,18 +618,12 @@ class CViewSensors extends CViewer implements IViewer{
 					case 'not_used': ++$j; break;
 					case 'defected': ++$k; break;
 					default        : 
-									 $stat = "записи нет";
 									 break;
 				}
 			}
-			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
-			$stat .=  "\t<tr><td style=\"text-align:right\">Используется  : </td><td>".$h."</td></tr>\n";
-			$stat .= "\t<tr><td style=\"text-align:right\">Не используется: </td><td>".$j."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Дефект        : </td><td>".$k."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Всего         : </td><td>".($k+$j+$h)."</td></tr>\n";
-			$stat .= "</tbody></table>";
+			$stat = array('Используется' => $h, 'Не используется' => $j, 'Дефект' => $k, 'Всего'=>$h+$j+$k);
+			return $stat;
 		}
-		print($stat);
 	}
 }
 /*-------------------End of Sensors Class------------------------*/
@@ -749,25 +741,20 @@ class CViewAutos extends CViewer implements IViewer{
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
 			$stat = "записей нет";
+			return $stat;
 		}
 		else{
 			$h = $j = 0;
 			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
 				switch ($value['status']) {
-					case 'active'   : ++$h; break;
+					case 'active'    : ++$h; break;
 					case 'not_active': ++$j; break;
-					default        : 
-									 $stat = "записи нет";
-									 break;
+					default          : break;
 				}
 			}
-			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
-			$stat .=  "\t<tr><td style=\"text-align:right\">Активно   : </td><td>".$h."</td></tr>\n";
-			$stat .= "\t<tr><td style=\"text-align:right\">Не активных: </td><td>".$j."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Всего      : </td><td>".($j+$h)."</td></tr>\n";
-			$stat .= "</tbody></table>";
+			$stat = array('Активно' => $h, 'Не активно' => $j,'Всего'=>$h+$j);
+			return $stat;
 		}
-		print($stat);
 	}
 }
 /*-------------------End of Autos Class------------------------*/

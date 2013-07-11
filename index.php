@@ -220,16 +220,7 @@ else{
 										echo('Object is empty');
 									}
 									else{
-										$arr = $obj->commonStat();		// commonStat() is returned an array
-										$html = "<table class=\"iw-table table-condensed\"><tbody>";
-										$i = 0;
-										foreach ($arr as $key => $value) {
-											$html .= "\t<tr><td style=\"text-align:right\">{$key}  : </td><td>{$value}</td></tr>\n";
-											$i += $value;
-										}
-										$html .= "\t<tr><td style=\"text-align:right\">Всего       : </td><td>{$i}</td></tr>\n";
-										$html .= "</tbody></table>";
-										print($html);
+										$obj->commonStat();		// commonStat() is returned an array
 									}
 								?>
 							</td>
