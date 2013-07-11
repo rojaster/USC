@@ -222,10 +222,12 @@ else{
 									else{
 										$arr = $obj->commonStat();		// commonStat() is returned an array
 										$html = "<table class=\"iw-table table-condensed\"><tbody>";
-										$html .= "\t<tr><td style=\"text-align:right\">Свободно    : </td><td>".$arr['free'   ]."</td></tr>\n";
-										$html .= "\t<tr><td style=\"text-align:right\">Используется: </td><td>".$arr['busy'   ]."</td></tr>\n" ;
-										$html .= "\t<tr><td style=\"text-align:right\">Блокировано : </td><td>".$arr['blocked']."</td></tr>\n" ;
-										$html .= "\t<tr><td style=\"text-align:right\">Всего       : </td><td>".($arr['free']+$arr['busy']+$arr['blocked'])."</td></tr>\n";
+										$i = 0;
+										foreach ($arr as $key => $value) {
+											$html .= "\t<tr><td style=\"text-align:right\">{$key}  : </td><td>{$value}</td></tr>\n";
+											$i += $value;
+										}
+										$html .= "\t<tr><td style=\"text-align:right\">Всего       : </td><td>{$i}</td></tr>\n";
 										$html .= "</tbody></table>";
 										print($html);
 									}

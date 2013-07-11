@@ -362,7 +362,7 @@ class CViewSimcards extends CViewer implements IViewer{
 					default       : break;
 				}
 			}
-			$stat = array('free'=>$h , 'busy'=>$j , 'blocked'=>$k);
+			$stat = array('Свободно'=>$h , 'Используется'=>$j , 'Блокировано'=>$k);
 			return $stat;
 		}
 	}
