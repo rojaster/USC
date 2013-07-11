@@ -185,6 +185,9 @@ else{
 						<th>
 							<?=__AUTOS__?>
 						</th>
+						<th>
+							<?=__CLIENTS__?>
+						</th>
 					</tr>
 					<tbody>
 						<tr>
@@ -228,6 +231,18 @@ else{
 							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__AUTOS__,$dblnk,$rights);
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
+								?>
+							</td>
+							<!--CLIENTS-->
+							<td class="tb-comm-stat">
+								<?php
+									$obj = CUniClassBuilder::initObj(__CLIENTS__,$dblnk,$rights);
 									if(is_null($obj)){
 										echo('Object is empty');
 									}

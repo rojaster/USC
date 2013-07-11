@@ -246,7 +246,27 @@ class CViewClients extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM {$this->tableName}
+				";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+			return $stat;
+		}
+		else{
+			$h = $j = $k = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['status']) {
+					case 'active'    : ++$h; break;
+					case 'blocked'   : ++$j; break;
+					case 'black_list': ++$k; break;
+					default          : break;
+				}
+			}
+			$stat = array('Действующий'=>$h , 'Блокированный'=>$j , 'Черный список'=>$k, 'Всего'=>$h+$j+$k);
+			return $stat;
+		}
 	}
 }
 /*-------------------End of Client Class---------------------------*/
