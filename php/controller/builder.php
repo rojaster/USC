@@ -33,7 +33,7 @@ if(md5($result['id'].'_'.$result['reg_date']) != $_SESSION['sess_token']){
 }
 else{
 ?>
-
+<?php require_once("/../viewer/view.php"); ?>
 <!DOCTYPE html>
 <html>
 	<?php include_once('/../viewer/head.php'); ?>
@@ -50,10 +50,19 @@ else{
 			<?php }?>
 		</li>
 	</ul>
-
+	
+	<!--table for print information for category of object-->
 	<div class="table-wrap">
+			<!--Common statistic line-->
+		<span class="statsline">
+			<?php
+				$object->commonStat();
+			?>
+		</span>
 		<table class="table table-bordered table-hover table-condensed">
-				<?php require_once("/../viewer/view.php"); ?>
+			<?
+				$object->viewCatData($db->get_dbname()); // info rendering
+			?>
 		</table>
 	</div>
 <!--FOOTER-->

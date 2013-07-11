@@ -275,7 +275,7 @@ class CViewSimcards extends CViewer implements IViewer{
 	}
 
 	function getTableRecords($tableName){
-		$sql = "SELECT * FROM `".$tableName."`";
+		$sql = "SELECT * FROM `{$this->tableName}` ORDER BY `status`";
 		$records = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$tableName." is wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td>NONE ".$this->tableName." dont have a records</td>
@@ -356,9 +356,9 @@ class CViewSimcards extends CViewer implements IViewer{
 			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
 				switch ($value['status']) {
 					case 'free'   : ++$h; break;
-					case 'busy': ++$j; break;
+					case 'busy'   : ++$j; break;
 					case 'blocked': ++$k; break;
-					default        : 
+					default       : 
 									 $stat = "записи нет";
 									 break;
 				}
