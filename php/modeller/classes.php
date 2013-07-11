@@ -71,7 +71,7 @@ abstract class CViewer{
 				INNER JOIN tblautos ON s.tblAutos\$auto_id = tblautos.auto_id
 				INNER JOIN tblworkers ON s.tblWorkers\$worker_id = tblworkers.worker_id
 				WHERE s.serv_type = '{$param}'
-				AND (s.status = 'not done' OR s.status = 'performed')
+				AND (s.status = 'not done')
 				LIMIT 0 , 5	
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$this->tableName. "is wrong!!");
@@ -893,7 +893,7 @@ class CViewWorkers extends CViewer implements IViewer{
 	}
 
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		/*TODO*/
 	}
 }
 /*-------------------End of Workers Class------------------------*/
@@ -1012,7 +1012,27 @@ class CViewServicesM extends CViewer implements IViewer{
 	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
 	// хотя это такая шляпа
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM {$this->tableName}
+				WHERE `serv_type`='m'";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+			return $stat;
+		}
+		else{
+			$h = $j = $k = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['status']) {
+					case 'done'     : ++$h; break;
+					case 'not done' : ++$j; break;
+					case 'performed': ++$k; break;
+					default          : break;
+				}
+			}
+			$stat = array('Завершено' => $h, 'Не завершено' => $j, 'Текущих' => $k ,'Всего'=>$h+$j+$k);
+			return $stat;
+		}
 	}
 }
 /*-------------------End of ServicesM Class------------------------*/
@@ -1131,7 +1151,27 @@ class CViewServicesTS extends CViewer implements IViewer{
 	// метод останется, так как для каждой страницы с объектом, в шапке, потребуется выводить полную статистику
 	// поэтому решено разбить вывод статы на две части: главная панель getStatForMP и getFullObjStat
 	function getFullObjStat(){
-		echo('getFullObjStat()');
+		$sql = "SELECT `status`
+				FROM {$this->tableName}
+				WHERE `serv_type`='ts'";
+		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
+		if(mysql_num_rows($res)==0){
+			$stat = "записей нет";
+			return $stat;
+		}
+		else{
+			$h = $j = $k = 0;
+			while($value = mysql_fetch_array($res,MYSQL_ASSOC)){
+				switch ($value['status']) {
+					case 'done'     : ++$h; break;
+					case 'not done' : ++$j; break;
+					case 'performed': ++$k; break;
+					default          : break;
+				}
+			}
+			$stat = array('Завершено' => $h, 'Не завершено' => $j, 'Текущих' => $k ,'Всего'=>$h+$j+$k);
+			return $stat;
+		}
 	}
 }
 /*-------------------End of ServicesTS Class------------------------*/

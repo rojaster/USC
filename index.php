@@ -137,7 +137,7 @@ else{
 	<div class="interactive-window">
 		<!--Таблица по сервису технического обслуживания-->
 		<div class="iw-wrap">
-			<label class="hr-labels"><?=__TSERVICE__?> (performed,not done)</label>
+			<label class="hr-labels"><?=__TSERVICE__?> (not done)</label>
 			<table class="table iw-table table-bordered table-hover break_str">
 				<?php
 				$obj = CUniClassBuilder::initObj(__TSERVICE__,$dblnk,$rights);
@@ -153,7 +153,7 @@ else{
 
 		<!--Таблица по монтажу устройств на автомобили-->
 		<div class="iw-wrap">
-			<label class="hr-labels"><?=__MONTAGE__?> (performed,not done)</label>
+			<label class="hr-labels"><?=__MONTAGE__?> (not done)</label>
 			<table class="table iw-table table-bordered table-hover break_str">
 				<?php
 					$obj = CUniClassBuilder::initObj(__MONTAGE__,$dblnk,$rights);
@@ -187,6 +187,12 @@ else{
 						</th>
 						<th>
 							<?=__CLIENTS__?>
+						</th>
+						<th>
+							<?=__MONTAGE__?>
+						</th>
+						<th>
+							<?=__TSERVICE__?>
 						</th>
 					</tr>
 					<tbody>
@@ -243,6 +249,30 @@ else{
 							<td class="tb-comm-stat">
 								<?php
 									$obj = CUniClassBuilder::initObj(__CLIENTS__,$dblnk,$rights);
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
+								?>
+							</td>
+							<!--Montage-->
+							<td class="tb-comm-stat">
+								<?php
+									$obj = CUniClassBuilder::initObj(__MONTAGE__,$dblnk,$rights);
+									if(is_null($obj)){
+										echo('Object is empty');
+									}
+									else{
+										$obj->commonStat();
+									}
+								?>
+							</td>
+							<!--TS-->
+							<td class="tb-comm-stat">
+								<?php
+									$obj = CUniClassBuilder::initObj(__TSERVICE__,$dblnk,$rights);
 									if(is_null($obj)){
 										echo('Object is empty');
 									}
