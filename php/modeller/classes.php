@@ -350,6 +350,7 @@ class CViewSimcards extends CViewer implements IViewer{
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
 			$stat = "записей нет";
+			return $stat;
 		}
 		else{
 			$h = $j = $k = 0;
@@ -358,19 +359,12 @@ class CViewSimcards extends CViewer implements IViewer{
 					case 'free'   : ++$h; break;
 					case 'busy'   : ++$j; break;
 					case 'blocked': ++$k; break;
-					default       : 
-									 $stat = "записи нет";
-									 break;
+					default       : break;
 				}
 			}
-			$stat = "<table class=\"iw-table table-condensed\"><tbody>";
-			$stat .=  "\t<tr><td style=\"text-align:right\">Используется  : </td><td>".$h."</td></tr>\n";
-			$stat .= "\t<tr><td style=\"text-align:right\">Не используется: </td><td>".$j."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Блокировано    : </td><td>".$k."</td></tr>\n" ;
-			$stat .= "\t<tr><td style=\"text-align:right\">Всего          : </td><td>".($k+$j+$h)."</td></tr>\n";
-			$stat .= "</tbody></table>";
+			$stat = array('free'=>$h , 'busy'=>$j , 'blocked'=>$k);
+			return $stat;
 		}
-		print($stat);
 	}
 }
 /*-------------------End of Simcards Class---------------------------*/

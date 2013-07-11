@@ -56,7 +56,7 @@ else{
 			<!--Common statistic line-->
 		<span class="statsline">
 			<?php
-				$object->commonStat();
+				$arr = $object->commonStat();
 			?>
 		</span>
 		<table class="table table-bordered table-hover table-condensed">
