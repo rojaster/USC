@@ -15,7 +15,7 @@ interface IViewer{
 //abstract class with generic methods for all classes
 abstract class CViewer{
 	protected $dblink;   // link to connect to db
-	protected $rights;   // user access rights for work with data 
+	protected $rights;   // user access rights for work with data
 	protected $message;  // error message
 	protected $tableName; //Table Name for category
 	public function viewCatData($dbname){
@@ -33,9 +33,9 @@ abstract class CViewer{
 
 	public function getEditMenu($recID,$rights,$tableName){
 		switch($rights){
-			case 'SUID': return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a> 
+			case 'SUID': return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a>
 						&nbsp;&nbsp;<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=deleteid&table={$tableName}\">Удалить</a>";
-			case 'SUI' : 
+			case 'SUI' :
 			case 'SU'  : return "<a href=\"/../php/controller/rec_editor.php?id={$recID}&action=editid&table={$tableName}\">Изменить</a>";
 			default    : return "--------";
 		}
@@ -66,16 +66,16 @@ abstract class CViewer{
 
 	function getStatForMP($param){
 		// header of table
-		$sql = "SELECT start_date_time AS sdt, finish_date_time AS fdt, description, tblautos.gos_num AS gn,tblworkers.fio AS fio,tblworkers.phone AS phone 
+		$sql = "SELECT start_date_time AS sdt, finish_date_time AS fdt, description, tblautos.gos_num AS gn,tblworkers.fio AS fio,tblworkers.phone AS phone
 				FROM tblservices AS s
 				INNER JOIN tblautos ON s.tblAutos\$auto_id = tblautos.auto_id
 				INNER JOIN tblworkers ON s.tblWorkers\$worker_id = tblworkers.worker_id
 				WHERE s.serv_type = '{$param}'
 				AND (s.status = 'not done')
-				LIMIT 0 , 5	
+				LIMIT 0 , 5
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$this->tableName. "is wrong!!");
-		
+
 		$head = "\t<thead>\n";
 		$head .= "\t\t<tr>\n";
 		$head .= "\t\t\t<th class=\"fxw\">№</th>\n";
@@ -201,8 +201,8 @@ class CViewClients extends CViewer implements IViewer{
 		$cl_type  = mysql_real_escape_string($_POST['cl_type']  );
 		$address  = mysql_real_escape_string($_POST['address']  );
 		$status   = mysql_real_escape_string($_POST['status']   );
-		$sql = "INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`) 
-				VALUES (NULL,'{$firmName}','{$person}','{$phone}','{$fax_num}','{$email}','{$cl_type}','{$address}',NULL,'{$status}') 
+		$sql = "INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`)
+				VALUES (NULL,'{$firmName}','{$person}','{$phone}','{$fax_num}','{$email}','{$cl_type}','{$address}',NULL,'{$status}')
 				";
 		return $sql;
 	}
@@ -339,7 +339,7 @@ class CViewSimcards extends CViewer implements IViewer{
 		$pnum = mysql_real_escape_string($_POST['PNumber']);
 		$stat = mysql_real_escape_string($_POST['status']);
 		$lic = mysql_real_escape_string($_POST['lic']);
-		$sql = "INSERT INTO `tblsims`(`sim_id`, `sim_number`, `phone_number`, `status`, `dateofcreate`, `lic_schet`) 
+		$sql = "INSERT INTO `tblsims`(`sim_id`, `sim_number`, `phone_number`, `status`, `dateofcreate`, `lic_schet`)
 				VALUES (NULL,'{$nsim}','{$pnum}','{$stat}',CURDATE(),'{$lic}')
 				";
 		return $sql;
@@ -427,7 +427,7 @@ class CViewDevices extends CViewer implements IViewer{
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT `tbldevices`.*
 				FROM ".$tableName."";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td>NONE ".$this->tableName." dont have a records</td>
@@ -464,7 +464,7 @@ class CViewDevices extends CViewer implements IViewer{
 		$serial = mysql_real_escape_string($_POST['serial']);
 		$imei = mysql_real_escape_string($_POST['imei']);
 		$status = mysql_real_escape_string($_POST['status']);
-		$sql = "INSERT INTO `tbldevices`(`dev_id`, `dev_name`, `serial_number`, `IMEI`, `status`, `dev_date`) 
+		$sql = "INSERT INTO `tbldevices`(`dev_id`, `dev_name`, `serial_number`, `IMEI`, `status`, `dev_date`)
 				VALUES (NULL,'{$devname}','{$serial}','{$imei}','{$status}',CURDATE())
 				";
 		return $sql;
@@ -554,11 +554,11 @@ class CViewSensors extends CViewer implements IViewer{
 		$fieldsName[] = "Редактирование";
 		return $fieldsName;
 	}
-	
+
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT *
 				FROM ".$tableName."";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td colspan=8>NONE ".$this->tableName." dont have a records</td>
@@ -595,7 +595,7 @@ class CViewSensors extends CViewer implements IViewer{
 		$serial = mysql_real_escape_string($_POST['serial']);
 		$status = mysql_real_escape_string($_POST['status']);
 		$devid = mysql_real_escape_string($_POST['dev_id']);
-		$sql = "INSERT INTO `tblsensors`(`sens_id`, `model_type`, `sens_serial`, `sens_status`, `create_date`, `tblDevices_dev_id`) 
+		$sql = "INSERT INTO `tblsensors`(`sens_id`, `model_type`, `sens_serial`, `sens_status`, `create_date`, `tblDevices_dev_id`)
 				VALUES (NULL,'{$model}','{$serial}','{$status}',CURDATE(),'{$devid}')
 				";
 		return $sql;
@@ -637,7 +637,7 @@ class CViewSensors extends CViewer implements IViewer{
 					case 'using'   : ++$h; break;
 					case 'not_used': ++$j; break;
 					case 'defected': ++$k; break;
-					default        : 
+					default        :
 									 break;
 				}
 			}
@@ -677,11 +677,11 @@ class CViewAutos extends CViewer implements IViewer{
 		$fieldsName[] = "Редактирование";			// change this field on client name for production
 		return $fieldsName;
 	}
-	
+
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT *
 				FROM ".$tableName."";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td colspan=7>NONE ".$this->tableName." dont have a records</td>
@@ -723,7 +723,7 @@ class CViewAutos extends CViewer implements IViewer{
 		$status = mysql_real_escape_string($_POST['status']);
 		$cdate = mysql_real_escape_string($_POST['cdate']);
 		$client = mysql_real_escape_string($_POST['client']);
-		$sql = "INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
+		$sql = "INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`)
 				VALUES (NULL,'{$gnum}','{$vin}','{$marka}','{$status}','{$cdate}','{$client}')
 				";
 		return $sql;
@@ -811,11 +811,11 @@ class CViewWorkers extends CViewer implements IViewer{
 		$fieldsName[] = "Редактирование";
 		return $fieldsName;
 	}
-	
+
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT *
 				FROM ".$tableName."";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td colspan=10>NONE ".$this->tableName." dont have a records</td>
@@ -930,13 +930,13 @@ class CViewServicesM extends CViewer implements IViewer{
 		$fieldsName[] = "Редактирование";
 		return $fieldsName;
 	}
-	
+
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT tblservices.*,tblworkers.fio,tblworkers.phone
-				FROM tblservices 
-				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id 
+				FROM tblservices
+				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id
 				WHERE tblservices.serv_type = 1";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for ".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td colspan=10>NONE ".$this->tableName." dont have a records</td>
@@ -1070,13 +1070,13 @@ class CViewServicesTS extends CViewer implements IViewer{
 		$fieldsName[] = "Редактирование";
 		return $fieldsName;
 	}
-	
+
 	function getTableRecords($tableName){		// get a record of fields for table
 		$sql = "SELECT tblservices.*,tblworkers.fio,tblworkers.phone
-				FROM tblservices 
-				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id 
+				FROM tblservices
+				LEFT JOIN tblworkers ON tblworkers.worker_id = tblservices.tblWorkers\$worker_id
 				WHERE tblservices.serv_type = 2";
-		$records = mysql_query($sql,$this->dblink) or 
+		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
 			$tableBody = "<tbody><tr><td colspan=10>NONE ".$this->tableName." dont have a records</td>
