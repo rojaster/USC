@@ -1,4 +1,4 @@
-<?php 
+<?php
 /********************************************
 *Main Control Panel Page*
 *query builder : get category , get data
@@ -13,14 +13,14 @@ if(empty($_SESSION['sess_token'])) header("Location: /../".__EXIT__); // if sess
 $login = Connecter::secure($_SESSION['name']);
 $rights = Connecter::secure($_SESSION['rights']);
 $cat_header = Connecter::secure($_GET['cat']);
-$sql = "SELECT * 
+$sql = "SELECT *
 		FROM auth
 		INNER JOIN tblworkers ON tblworkers.worker_id = tblworkers\$worker_id
 		WHERE log = '{$login}' AND access_rights = '{$rights}'
 		LIMIT 1"; //build query
 
 $qresult = @mysql_query($sql,$dblnk) or die(print_r($sql)); // check user again, lil trick
-if(!$qresult) header("Location: /../".__EXIT__); 
+if(!$qresult) header("Location: /../".__EXIT__);
 if(mysql_num_rows($qresult) != 1) {header("Location: /../".__EXIT__);} // if query returns more one records  redirect to auth
 $result = mysql_fetch_assoc($qresult);
 @mysql_free_result($qresult); // free query result
@@ -44,19 +44,24 @@ else{
 	<ul class="pager">
 		<li>
 			<a href="<?=__MAIN__?>">&larr; Главная Панель Управления</a>
-			
-			<?php if($rights =='SUI' || $rights == 'SUID'){?> 
-						<a href="/php/controller/creator.php?ctg=<?=$cat_header?>">Создать</a> 
+
+			<?php if($rights =='SUI' || $rights == 'SUID'){?>
+						<a href="/php/controller/creator.php?ctg=<?=$cat_header?>">Создать</a>
 			<?php }?>
 		</li>
 	</ul>
-	
+
 	<!--table for print information for category of object-->
 	<div class="table-wrap">
 			<!--Common statistic line-->
 		<span class="statsline">
 			<?php
-				$arr = $object->commonStat();
+				$arr = $object->getFullObjStat();
+				$stats = '';
+				foreach ($arr as $key => $value) {
+					$stats .= $key.': '.'<b>'.$value.'</b>'.'&nbsp;&nbsp;&nbsp;&nbsp;';
+				}
+				print($stats);
 			?>
 		</span>
 		<table class="table table-bordered table-hover table-condensed">
@@ -73,5 +78,5 @@ else{
 
 
 <?php
-} // end else 
+} // end else
 
