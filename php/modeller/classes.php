@@ -301,6 +301,9 @@ class CViewSimcards extends CViewer implements IViewer{
 	}
 
 	function getTableRecords($tableName){
+		// for messages about some proccess
+		$msq = "";
+		// get all records of sims for viewing
 		$sql = "SELECT * FROM `{$this->tableName}` ORDER BY `status`";
 		$records = mysql_query($sql,$this->dblink) or $this->errorer("getTableRecords for ".$tableName." is wrong");
 		if(mysql_num_rows($records) == 0){
@@ -308,6 +311,15 @@ class CViewSimcards extends CViewer implements IViewer{
 							<td></td><td></td><td></td><td></td><td></td></tr></tbody>";
 		}
 		else{
+			// get a gos_num for sim with busy status if it is on car
+			$sql = "SELECT `s`.`sim_id` , `a`.`gos_num` FROM `tblsims` AS `s`
+					INNER JOIN `simdev` AS `sd` ON  `sd`.`tblSims_sims_id` = `s`.`sim_id`
+					INNER JOIN `devauto` AS `da` ON `da`.`tblsimdev_r_id` = `sd`.`r_id`
+					INNER JOIN `tblautos` AS `a`  ON `a`.`auto_id` = `da`.`tblAutos_auto_id`
+					WHERE `s`.`status` = 'busy'
+					";
+			$recGosNum = mysql_query($sql,$this->dblink) or $this->errorer("Can't get a gos_num's for selected sims");
+			if(mysql_num_rows($recGosNum) == 0) $msg = "Fields of group is empty, check a dataset";
 			$tableBody = "\t<tbody>\n";
 			$i = 0; // string number
 			while($value = mysql_fetch_array($records,MYSQL_ASSOC)){
