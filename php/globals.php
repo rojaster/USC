@@ -16,9 +16,9 @@ define('__MAIN__'     ,'/../index.php'                ,false);		// link on index
 
 
 /*DATABASE PARAMETERS*/
-define('__DBUSER__','root'     ,false);			//database user 
-define('__DBPASS__',''         ,false);				// password for database connection
-define('__DBHOST__','localhost',false);		// host, where database is 
+define('__DBUSER__','root'     ,false);		//database user
+define('__DBPASS__',''         ,false);		// password for database connection
+define('__DBHOST__','localhost',false);		// host, where database is
 define('__DBNAME__','usctestdb',false);		// database name on server
 
 
