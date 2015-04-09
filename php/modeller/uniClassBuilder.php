@@ -17,9 +17,9 @@ include_once('classes.php'    );		//include classes for objects
 //*DECLARATIONS
 final class CUniClassBuilder{
 	//*PUBLIC
-	final static private $obj;
+	private static $obj;
 
-	final static public function initObj($category,$link,$rights){
+	final public static function initObj($category,$link,$rights){
 		switch($category){
 			case __SIM__		:	self::$obj = new CViewSimcards($link,$rights)  ;
 									break 										   ;

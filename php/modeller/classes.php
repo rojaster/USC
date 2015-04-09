@@ -22,6 +22,7 @@ abstract class CViewer{
 		$countTHead = $this->getFieldsCount();
 		$tHeadName = $this->getFieldsName();
 		$tableHead = "\t<thead><tr>\n";
+
 		for($i=0; $i<$countTHead; ++$i){
 			$tableHead .= "\t\t<th>".$tHeadName[$i]."</th>\n";
 		}
@@ -57,9 +58,16 @@ abstract class CViewer{
 	public function commonStat(){		//may be need more parameters at future
 		$arr = $this->getFullObjStat();	//fullObjStat() - a method for full statistic about object instance
 		$html = "<table class=\"iw-table table-condensed\"><tbody>";
-		foreach ($arr as $key => $value) {
-			$html .= "\t<tr><td style=\"text-align:right\">{$key}  : </td><td>{$value}</td></tr>\n";
+
+		if( !is_array( $arr ) ){
+			$html .= "\t<tr><td style=\"text-align:right\">{$arr}</td></tr>\n";
 		}
+		else{
+			foreach ($arr as $key => $value) {
+				$html .= "\t<tr><td style=\"text-align:right\">{$key}  : </td><td>{$value}</td></tr>\n";
+			}
+		}
+
 		$html .= "</tbody></table>";
 		print($html);
 	}
@@ -90,7 +98,7 @@ abstract class CViewer{
 		print($head);
 
 		if(mysql_num_rows($res) == 0){
-			$err = "\t<tbody>\n \t\t<tr>\t\t\t<td colspan=8> Нет задач для монатажа, чей статус - not done или performed</td>\n</tr>\n \t</tbody>\n";
+			$err = "\t<tbody>\n \t\t<tr>\t\t\t<td colspan=7> Нет задач для монатажа, чей статус - not done или performed</td>\n</tr>\n \t</tbody>\n";
 			print($err);
 		}
 		else{
@@ -143,7 +151,7 @@ class CViewClients extends CViewer implements IViewer{
 		$fieldsName[] = 'Телефонный номер';
 		$fieldsName[] = 'Номер факса';
 		$fieldsName[] = 'Email';
-		$fieldsName[] = 'Тип клиента(юр.лицо, физ.лицо)';
+		//$fieldsName[] = 'Тип клиента(юр.лицо, физ.лицо)';
 		$fieldsName[] = 'Адрес фирмы';
 		//$fieldsName[] = 'Фото';
 		$fieldsName[] = 'Статус';
@@ -169,7 +177,7 @@ class CViewClients extends CViewer implements IViewer{
 				$tableBody .= "\t\t\t<td>".$value['phone_num']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['fax_num']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['e_mail']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['cl_type']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['cl_type']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['address']."</td>\n";
 				//$tableBody .= "\t\t\t<td>".$value['foto']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
@@ -251,7 +259,7 @@ class CViewClients extends CViewer implements IViewer{
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -302,7 +310,7 @@ class CViewSimcards extends CViewer implements IViewer{
 
 	function getTableRecords($tableName){
 		// get all records of sims for viewing
-		$sql = "SELECT `s`.`sim_id` , `s`.`sim_number`, `s`.`phone_number`, `s`. `status`,  `a`.`gos_num`, `s`.`dateofcreate` , `s`.`lic_schet` 
+		$sql = "SELECT `s`.`sim_id` , `s`.`sim_number`, `s`.`phone_number`, `s`. `status`,  `a`.`gos_num`, `s`.`dateofcreate` , `s`.`lic_schet`
 				FROM `tblsims`       AS `s`
 				LEFT JOIN `simdev`   AS `sd` ON `sd`.`tblSims_sims_id` = `s`.`sim_id`
 				LEFT JOIN `devauto`  AS `da` ON `da`.`tblsimdev_r_id`  = `sd`.`r_id`
@@ -384,7 +392,7 @@ class CViewSimcards extends CViewer implements IViewer{
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -506,7 +514,7 @@ class CViewDevices extends CViewer implements IViewer{
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName."is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = 'записей нет';
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -570,7 +578,7 @@ class CViewSensors extends CViewer implements IViewer{
 		$records = mysql_query($sql,$this->dblink) or
 					$this->errorer(" getTableRecords for".$tableName." is a wrong");
 		if(mysql_num_rows($records) == 0){
-			$tableBody = "<tbody><tr><td colspan=8>NONE ".$this->tableName." dont have a records</td>
+			$tableBody = "<tbody><tr><td colspan=7>NONE ".$this->tableName." dont have a records</td>
 							</tr></tbody>";
 		}
 		else{
@@ -636,7 +644,7 @@ class CViewSensors extends CViewer implements IViewer{
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -678,7 +686,7 @@ class CViewAutos extends CViewer implements IViewer{
 		$fieldsName = array();
 		$fieldsName[] = '№';
 		$fieldsName[] = "Гос.номер";
-		$fieldsName[] = "VIN";
+		//$fieldsName[] = "VIN";
 		$fieldsName[] = "Марка";
 		$fieldsName[] = "Статус";
 		$fieldsName[] = "Дата подключения";
@@ -703,7 +711,7 @@ class CViewAutos extends CViewer implements IViewer{
 				$tableBody .= "\t\t<tr>\n";
 				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['gos_num']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['vin']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['vin']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['marka']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['status']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['conn_date']."</td>\n";
@@ -769,7 +777,7 @@ class CViewAutos extends CViewer implements IViewer{
 				";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -809,7 +817,7 @@ class CViewWorkers extends CViewer implements IViewer{
 		$fieldsName = array();
 		$fieldsName[] = "№";
 		$fieldsName[] = "ИД Работника";
-		$fieldsName[] = "Имя";
+		//$fieldsName[] = "Имя";
 		$fieldsName[] = "Фамилия\Отчество";
 		$fieldsName[] = "Серия паспорта";
 		$fieldsName[] = "Дата принятия";
@@ -838,7 +846,7 @@ class CViewWorkers extends CViewer implements IViewer{
 				$tableBody .= "\t\t\t<td>".++$i."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['worker_id']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['fio']."</td>\n";
-				$tableBody .= "\t\t\t<td>".$value['some_info']."</td>\n";
+				//$tableBody .= "\t\t\t<td>".$value['some_info']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['passport_ser_num']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['hire_date']."</td>\n";
 				$tableBody .= "\t\t\t<td>".$value['post_of_worker']."</td>\n";
@@ -1026,7 +1034,7 @@ class CViewServicesM extends CViewer implements IViewer{
 				WHERE `serv_type`='m'";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{
@@ -1165,7 +1173,7 @@ class CViewServicesTS extends CViewer implements IViewer{
 				WHERE `serv_type`='ts'";
 		$res = mysql_query($sql,$this->dblink) or $this->errorer("getFullObjStat for ".$this->tableName." is wrong");
 		if(mysql_num_rows($res)==0){
-			$stat = "записей нет";
+			$stat = "нет данных";
 			return $stat;
 		}
 		else{

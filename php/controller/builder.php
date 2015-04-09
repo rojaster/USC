@@ -58,14 +58,19 @@ else{
 			<?php
 				$arr = $object->getFullObjStat();
 				$stats = '';
-				foreach ($arr as $key => $value) {
-					$stats .= $key.': '.'<b>'.$value.'</b>'.'&nbsp;&nbsp;&nbsp;&nbsp;';
+				if( !is_array( $arr ) ){
+					$stats .= $arr;
+				}
+				else{
+					foreach ($arr as $key => $value) {
+						$stats .= "{$key}  : {$value}   ";
+					}
 				}
 				print($stats);
 			?>
 		</span>
 		<table class="table table-bordered table-hover table-condensed">
-			<?
+			<?php
 				$object->viewCatData($db->get_dbname()); // info rendering
 			?>
 		</table>
