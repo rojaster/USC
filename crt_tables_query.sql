@@ -17,21 +17,21 @@ CREATE TABLE tblClients(
 						`fax_num` int(20) UNSIGNED NOT NULL DEFAULT '0',
 						`e_mail` VARCHAR(50) CHARACTER SET utf8 NOT NULL DEFAULT 'not defined',
 						`cl_type` ENUM("оао","зао","ип","чл","ооо") CHARACTER SET utf8 NULL,
-						`address` TEXT CHARACTER SET utf8 , 
+						`address` TEXT CHARACTER SET utf8 ,
 						`wialon` varchar(100) CHARACTER SET utf8 DEFAULT 'none' NOT NULL,
 						`status` ENUM("active","blocked","black_list") CHARACTER SET utf8 NULL,
 						`info` TEXT NULL DEFAULT NULL,
 						PRIMARY KEY(client_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 /*Тестовые данные клиента*/
-INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`,  `status`) 
+INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`,  `status`)
 VALUES ('','barabara','ai se te pegu',73462487485,73462548721,'bara@ya.ru','fl','ул.Маяковского 32 дом 5','active');
-INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`) 
-VALUES ('','someFirm','Виктор Пелевин',79234567896,75229633,'sf@ya.ru','ul','ул.Нефтюганское шоссе',floor(rand()),'active');
-INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `status`) 
+INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `status`)
+VALUES ('','someFirm','Виктор Пелевин',79234567896,75229633,'sf@ya.ru','ul','ул.Нефтюганское шоссе','active');
+INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `status`)
 VALUES ('','СНГ','Богданов',73462407040,73462456987,'bogdanov@sng.ru','ul','Бизнес центр','active');
-INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `foto`, `status`) 
-VALUES ('','sherbac','Щербаков Щербацкий Щербанович',7224567812,73462324568,'sherbakov@ya.ru','fl','ул.Маяковского 32 дом 5',floor(rand()),'black_list');
+INSERT INTO `tblclients`(`client_id`, `firm_name`, `contact_person`, `phone_num`, `fax_num`, `e_mail`, `cl_type`, `address`, `status`)
+VALUES ('','sherbac','Щербаков Щербацкий Щербанович',7224567812,73462324568,'sherbakov@ya.ru','fl','ул.Маяковского 32 дом 5','black_list');
 
 
 
@@ -54,21 +54,21 @@ CREATE TABLE tblAutos(
 							ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 /*Тестовые данные для авто*/
-INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
-VALUES ('','к456вч86','123456789','reno','active',CURDATE(),5);
-INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
-VALUES ('','в789уч70','741852963','mersedes','not_active',CURDATE(),5);
-INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
-VALUES ('','п345гр56','147258369','вольво','active',CURDATE(),6);
-INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
-VALUES ('','д183ск67','978456321','камаз','active',CURDATE(),7);
-INSERT INTO `tblautos`(`auto_id`, `gos_num`, `vin`, `marka`, `status`, `conn_date`, `tblclients_client_id`) 
-VALUES ('','з454шк','9517532584456','mitsubishi','not_active',CURDATE(),8);
+INSERT INTO `tblautos`(`auto_id`, `gos_num`,  `marka`, `status`, `conn_date`, `tblclients_client_id`)
+VALUES ('','к456вч86','reno','active',CURDATE(),1);
+INSERT INTO `tblautos`(`auto_id`, `gos_num`,  `marka`, `status`, `conn_date`, `tblclients_client_id`)
+VALUES ('','в789уч70','mersedes','not_active',CURDATE(),1);
+INSERT INTO `tblautos`(`auto_id`, `gos_num`,  `marka`, `status`, `conn_date`, `tblclients_client_id`)
+VALUES ('','п345гр56','вольво','active',CURDATE(),2);
+INSERT INTO `tblautos`(`auto_id`, `gos_num`,  `marka`, `status`, `conn_date`, `tblclients_client_id`)
+VALUES ('','д183ск67','камаз','active',CURDATE(),3);
+INSERT INTO `tblautos`(`auto_id`, `gos_num`,  `marka`, `status`, `conn_date`, `tblclients_client_id`)
+VALUES ('','з454шк','mitsubishi','not_active',CURDATE(),4);
 
 
 
 
-/*создание таблицы приборы, делаем связь с таблицей tblSims через tblSims_sims_id, 
+/*создание таблицы приборы, делаем связь с таблицей tblSims через tblSims_sims_id,
 чтобы потом смотреть на каком приборе есть симка, кто без симки - устанавливая либо ее id, либо 0*/
 CREATE TABLE `tblDevices` (
  `dev_id` int(30) unsigned NOT NULL AUTO_INCREMENT,
@@ -110,9 +110,9 @@ CREATE TABLE `tblSims` (
 
 
 /* Ассоциативная таблица для связи деваса и машины, чтобы при удалении девайса, автоматически удалялась связь с машиной
-Обновление девайса обновление машины 
+Обновление девайса обновление машины
 Нет необходимости держать поле девайс в таблице машины, аналогично в таблице девайсов держать поле для машины
-Связываем мы запись в таблице simdev, которая говорит о валидных девайсах с симкой, таким образом добавить девайс 
+Связываем мы запись в таблице simdev, которая говорит о валидных девайсах с симкой, таким образом добавить девайс
 без симки нельзя*/
 CREATE TABLE `devauto`(
 						`r_id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -158,7 +158,7 @@ CREATE TABLE `devsens`(
 
 /*tblWorkers - таблица воркеров , что рабоают в фирме свяжем ее с таблицей аутентификации,
 для каждого работника будем заводить пользователя аутентификации, если это необходимо,
-причем удаление пользователя аутентификации не означает удаление воркера, удаление воркера должно означать удаление 
+причем удаление пользователя аутентификации не означает удаление воркера, удаление воркера должно означать удаление
 аутентификации*/
 CREATE TABLE `tblWorkers`(
 						`worker_id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -172,16 +172,16 @@ CREATE TABLE `tblWorkers`(
 						`additional_info` text CHARACTER SET utf8
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 /*ТЕстовые данные для вставки*/
-INSERT INTO `tblworkers`(`worker_id`, `firstname`, `lastname`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`) 
-VALUES ('','tester_adm','tester_adm',6710384560,CURDATE(),'admin',79224567890,'admin@ya.ru','user was created for test');
-INSERT INTO `tblworkers`(`worker_id`, `firstname`, `lastname`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`) 
-VALUES ('','tester_empl','tester_empl',6710425652,CURDATE(),'employer',79321472583,'empl@ya.ru','employer was created for test');
-INSERT INTO `tblworkers`(`worker_id`, `firstname`, `lastname`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`) 
-VALUES ('','tester_worker','tester_worker',6710123456,CURDATE(),'worker',79229517536,'','worker was created for test');
-INSERT INTO `tblworkers`(`worker_id`, `firstname`, `lastname`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`) 
-VALUES ('','tester_worker','tester_empl1',6710124587,CURDATE(),'empl1',79221254785,'empl1@mail.ru','empl1 was created for test');
-INSERT INTO `tblworkers`(`worker_id`, `firstname`, `lastname`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`) 
-VALUES ('','tester_worker','tester_empl2',6710985653,CURDATE(),'empl2',79238529632,'','empl2 was created for test');
+INSERT INTO `tblworkers`(`worker_id`, `fio`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+VALUES ('','adm',6710384560,CURDATE(),'admin',79224567890,'admin@ya.ru','user was created for test');
+INSERT INTO `tblworkers`(`worker_id`, `fio`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+VALUES ('','empl',6710425652,CURDATE(),'employer',79321472583,'empl@ya.ru','employer was created for test');
+INSERT INTO `tblworkers`(`worker_id`, `fio`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+VALUES ('','tester',6710123456,CURDATE(),'worker',79229517536,'','worker was created for test');
+INSERT INTO `tblworkers`(`worker_id`, `fio`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+VALUES ('','empl1',6710124587,CURDATE(),'empl1',79221254785,'empl1@mail.ru','empl1 was created for test');
+INSERT INTO `tblworkers`(`worker_id`, `fio`, `passport_ser_num`, `hire_date`, `post_of_worker`, `phone`, `email`, `additional_info`)
+VALUES ('','empl2',6710985653,CURDATE(),'empl2',79238529632,'','empl2 was created for test');
 
 
 
@@ -200,14 +200,14 @@ CREATE TABLE auth (
 						ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 /*создали тестовых зверей, возможно права придется расширять*/
-INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`) 
-VALUES ('',CURDATE(),'t_admin',sha1('t_admin'),'SUID',4);
-INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`) 
-VALUES ('',CURDATE(),'t_empl',sha1('t_empl'),'SUI',5);
-INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`) 
-VALUES ('',CURDATE(),'t_empl1',sha1('t_empl1'),'SU',7);
-INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`) 
-VALUES ('',CURDATE(),'t_empl2',sha1('t_empl2'),'S',8);
+INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`)
+VALUES ('',CURDATE(),'t_admin',sha1('t_admin'),'SUID',11);
+INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`)
+VALUES ('',CURDATE(),'t_empl',sha1('t_empl'),'SUI',12);
+INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`)
+VALUES ('',CURDATE(),'t_empl1',sha1('t_empl1'),'SU',13);
+INSERT INTO `auth`(`id`, `reg_date`, `log`, `lpas`, `access_rights`, `tblWorkers$worker_id`)
+VALUES ('',CURDATE(),'t_empl2',sha1('t_empl2'),'S',14);
 
 
 
